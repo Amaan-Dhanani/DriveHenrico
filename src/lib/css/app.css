@@ -1,0 +1,20 @@
+
+
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+@theme {
+	--font-poppins: 'Poppins', sans-serif;
+}
+
+@layer base {
+	html, body { 
+		margin: 0;
+		padding: 0;
+		font-family: 'Poppins', sans-serif;
+		height: 100%;
+	}
+}
+
