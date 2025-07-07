@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">DriveHenrico</string>
+    <string name="title_activity_main">DriveHenrico</string>
+    <string name="package_name">com.drivehenrico.app</string>
+    <string name="custom_url_scheme">com.drivehenrico.app</string>
+</resources>
