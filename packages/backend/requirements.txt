@@ -1,0 +1,5 @@
+click==8.2.1
+h11==0.16.0
+pyucc==1.7
+siblink @ git+https://github.com/TreltaSev/siblink.git@cf7a94c0c91992584fc6a5cccb8d2b2cc5135408
+uvicorn==0.35.0
