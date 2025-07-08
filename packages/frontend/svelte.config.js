@@ -11,7 +11,11 @@ const config = {
 			pages: 'www',
 			assets: 'www',
 			fallback: 'index.html'
-		})
+		}),
+		alias: {
+			"@lib": "src/lib",
+			"@ui": "src/lib/ui"
+		}
 	}
 };
 

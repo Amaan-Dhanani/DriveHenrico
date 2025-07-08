@@ -1,1 +1,263 @@
 @import 'tailwindcss';
+@import 'sk-clib/style';
+
+/*
+------------------ FONTS ------------------ 
+    ~Usage~
+        Add local fonts into the website, just insert the
+        file into /src/assets/fonts and follow the templates below
+*/
+
+@font-face {
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: bolder;
+	font-display: swap;
+	src: url('assets/fonts/Poppins-Black.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: Poppins;
+	font-style: italic;
+	font-weight: bolder;
+	font-display: swap;
+	src: url('assets/fonts/Poppins-BlackItalic.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: bold;
+	font-display: swap;
+	src: url('assets/fonts/Poppins-Bold.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: Poppins;
+	font-style: italic;
+	font-weight: bold;
+	font-display: swap;
+	src: url('assets/fonts/Poppins-BoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: 800;
+	font-display: swap;
+	src: url('assets/fonts/Poppins-ExtraBold.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: Poppins;
+	font-style: italic;
+	font-weight: 800;
+	font-display: swap;
+	src: url('assets/fonts/Poppins-ExtraBoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: 200;
+	font-display: swap;
+	src: url('assets/fonts/Poppins-ExtraLight.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: Poppins;
+	font-style: italic;
+	font-weight: 200;
+	font-display: swap;
+	src: url('assets/fonts/Poppins-ExtraLightItalic.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: Poppins;
+	font-style: italic;
+	font-weight: normal;
+	font-display: swap;
+	src: url('assets/fonts/Poppins-Italic.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: lighter;
+	font-display: swap;
+	src: url('assets/fonts/Poppins-Light.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: Poppins;
+	font-style: italic;
+	font-weight: lighter;
+	font-display: swap;
+	src: url('assets/fonts/Poppins-LightItalic.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src: url('assets/fonts/Poppins-Medium.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: Poppins;
+	font-style: italic;
+	font-weight: 500;
+	font-display: swap;
+	src: url('assets/fonts/Poppins-MediumItalic.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: normal;
+	font-display: swap;
+	src: url('assets/fonts/Poppins-Regular.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: 600;
+	font-display: swap;
+	src: url('assets/fonts/Poppins-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: Poppins;
+	font-style: italic;
+	font-weight: 600;
+	font-display: swap;
+	src: url('assets/fonts/Poppins-SemiBoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: 100;
+	font-display: swap;
+	src: url('assets/fonts/Poppins-Thin.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: Poppins;
+	font-style: italic;
+	font-weight: 100;
+	font-display: swap;
+	src: url('assets/fonts/Poppins-ThinItalic.ttf') format('truetype');
+}
+
+/*
+------------------ THEME ------------------ 
+    ~Usage~
+        The themes directive allows us to add custom "design tokens" like
+		fonts, colors, and breakpoints into this project
+*/
+@theme {
+	/* For example, we can define out poppins font like so */
+	--font-poppins: Poppins, Tahoma, sans-serif;
+
+	/* === COLORS === */
+	--color-backdrop: #1F1F39; /* All Temporary */
+	--color-backdrop-light: #F0F0F2;
+	--color-primary: #3d5cff;
+	--color-accent: #fa8527;
+	--color-accent-light: #607d8b;
+
+
+
+	/* Semantic Colors */
+	--color-green: #52ff72;
+	--color-red: #ff6052;	
+}
+
+/*
+------------------ COMPONENTS ------------------ 
+    ~Usage~
+	These stylings are used for one specific svelte-kit component
+*/
+@layer components {
+
+	/* Simple Animation Class */
+	.animate {
+		@apply ease-in-out;
+		transition-duration: 300ms;
+	}
+
+	/* Simple Animation Class that applies to all children (performance issue?) */
+	.animate-all {
+		* {
+			@apply ease-in-out;
+			transition-duration: 300ms;
+		}
+	}
+
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+
+	input.strip-focus:focus {
+		outline: none;
+		border-color: inherit;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+	}
+}
+
+
+/*------------------ BASE ------------------ 
+    ~Usage~
+        Root level component styling, mainly
+		for default html tags.
+*/
+@layer base {
+
+	/* Scroll Bounce Effect Minimization */
+	:root {
+		overscroll-behavior: none;
+	}
+
+	html,
+	body {
+		@apply size-full;
+		font-family: var(--font-poppins);
+		overflow-x: hidden;
+		margin: 0;
+		padding: 0;
+	}
+
+	/* h1 {
+		@apply text-5xl font-semibold;
+		line-height: 1.5;
+	}
+
+	h2 {
+		@apply text-2xl font-normal;
+	}
+
+	h3 {
+		@apply text-xl font-normal;
+	}
+
+	h4 {
+		@apply text-sm font-normal;
+	}
+
+	p {
+		@apply text-base;
+	} */
+
+	/* A little bit of spice :) */
+	input:focus,
+	select:focus,
+	textarea:focus {
+		border-color: color-mix(in srgb, var(--color-primary), transparent 50%);
+		box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary), transparent 50%);
+		outline: none;
+	}
+}

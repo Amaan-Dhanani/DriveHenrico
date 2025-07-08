@@ -1,0 +1,14 @@
+services:
+  frontend:
+    # Frontend Stuff
+    container_name: frontend
+    build:
+      context: packages/frontend
+      dockerfile: ./Dockerfile.dev
+
+    volumes:
+    - ./packages/frontend:/frontend
+
+networks:
+  docker-network:
+    driver: bridge
