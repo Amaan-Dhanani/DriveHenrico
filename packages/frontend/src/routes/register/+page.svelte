@@ -21,19 +21,21 @@
 
 	<!-- Form Section -->
 	<Frame flex col fill class="mt-2 box-border rounded-t-2xl p-6 dark:bg-[#2F2F42]">
-		<form class="box-border flex size-full flex-col gap-4" {onsubmit}>
-			<Input type="text" id="name_input" name="name" label="Name" class="" />
-			<Input type="email" id="email_input" name="email" label="Email" />
+		<form class="box-border flex size-full flex-col" {onsubmit}>
+			<Input class="mb-4" type="text" id="name_input" name="name" label="Name"/>
+			<Input class="mb-4" type="email" id="email_input" name="email" label="Email" />
 			<Input type="password" class="mb-[12px]" id="password_input" label="Password" name="password"/>
 			
 			<RadioHorizontal
 				label="Account Type"
 				name="access"
 				bind:selected
+				divClass="mb-8"
+				labelClass="mb-1"
 				options={[{ value: 'Student' }, { value: 'Parent' }, { value: 'Teacher' }]}
 			/>
 
-			<Button type="submit" class="rounded-xl text-white cursor-pointer">Register</Button>
+			<Button type="submit" class="rounded-xl text-white cursor-pointer mb-4">Register</Button>
 
 			<Flex row center class="gap-2">
 				<Text lg class="opacity-80">Already have an account?</Text>
