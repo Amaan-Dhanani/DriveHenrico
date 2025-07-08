@@ -1,0 +1,3 @@
+
+# Environment Variables (Unsafe to leave in repo)
+.env

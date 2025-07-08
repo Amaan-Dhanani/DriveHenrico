@@ -1,4 +1,8 @@
 
+[working-directory: './']
+start:
+    docker compose up --build -d
+
 # Runs the frontend portion of the app
 [working-directory: './packages/frontend']
 frontend:

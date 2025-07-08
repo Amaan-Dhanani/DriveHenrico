@@ -1,0 +1,9 @@
+api.{$APP_DOMAIN} {
+    reverse_proxy backend:4000
+    tls internal
+}
+
+{$APP_DOMAIN} {
+    reverse_proxy frontend:3000
+    tls internal
+}

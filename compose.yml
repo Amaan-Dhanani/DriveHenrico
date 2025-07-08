@@ -1,0 +1,62 @@
+services:
+  backend:
+    # Backend Stuff
+    container_name: backend
+    build:
+      context: packages/backend
+      dockerfile: ./Dockerfile
+
+    ports:
+      - '4000:4000'
+
+    # Network Bridge
+    networks:
+      - docker-network
+
+    # Environment Variables
+    env_file:
+      - .env
+
+  frontend:
+    # Frontend Stuff
+    container_name: frontend
+    build:
+      context: packages/frontend
+      dockerfile: ./Dockerfile
+
+    ports:
+      - '3000:3000'
+
+    # Network Bridge
+    networks:
+      - docker-network
+    
+    # Environment Variables
+    env_file:
+      - .env
+
+  router:
+    # Router Stuff (caddy)
+    container_name: router
+    build:
+      context: packages/router
+      dockerfile: ./Dockerfile
+
+    environment:
+      - APP_DOMAIN=${APP_DOMAIN}
+    
+    ports:
+     - "80:80"
+     - "443:443"
+
+    # Network Bridge
+    networks:
+      - docker-network
+    
+    # Environment Variables
+    env_file:
+      - .env
+
+networks:
+  docker-network:
+    driver: bridge
