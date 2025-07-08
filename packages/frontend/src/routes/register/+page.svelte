@@ -21,7 +21,7 @@
 
 	<!-- Form Section -->
 	<Frame flex col fill class="mt-2 box-border rounded-t-2xl p-6 dark:bg-[#2F2F42]">
-		<form method="POST" class="box-border flex size-full flex-col gap-4" {onsubmit}>
+		<form class="box-border flex size-full flex-col gap-4" {onsubmit}>
 			<Input type="text" id="name_input" name="name" label="Name" class="" />
 			<Input type="email" id="email_input" name="email" label="Email" />
 			<Input type="password" class="mb-[12px]" id="password_input" label="Password" name="password"/>
