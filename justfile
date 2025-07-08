@@ -1,4 +1,5 @@
 
+# Starts the docker process
 [working-directory: './']
 start:
     docker compose up --build -d
