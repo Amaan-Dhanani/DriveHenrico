@@ -163,10 +163,13 @@
 	--font-poppins: Poppins, Tahoma, sans-serif;
 
 	/* === COLORS === */
-	--color-backdrop: #000000; /* All Temporary */
-	--color-primary: #aa8527;
+	--color-backdrop: #1F1F39; /* All Temporary */
+	--color-backdrop-light: #F0F0F2;
+	--color-primary: #3d5cff;
 	--color-accent: #fa8527;
 	--color-accent-light: #607d8b;
+
+
 
 	/* Semantic Colors */
 	--color-green: #52ff72;
@@ -213,9 +216,16 @@
 		for default html tags.
 */
 @layer base {
+
+	/* Scroll Bounce Effect Minimization */
+	:root {
+		overscroll-behavior: none;
+	}
+
 	html,
 	body {
 		@apply size-full;
+		font-family: var(--font-poppins);
 		overflow-x: hidden;
 		margin: 0;
 		padding: 0;

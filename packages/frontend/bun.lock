@@ -8,7 +8,7 @@
         "@capacitor/core": "^7.4.1",
         "@capacitor/ios": "^7.4.1",
         "@sveltejs/adapter-node": "^5.2.12",
-        "sk-clib": "^1.6.0",
+        "sk-clib": "^1.7.0",
         "tailwind-merge": "^3.3.1",
       },
       "devDependencies": {
@@ -982,7 +982,7 @@
 
     "sisteransi": ["sisteransi@1.0.5", "", {}, "sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg=="],
 
-    "sk-clib": ["sk-clib@1.6.0", "", { "dependencies": { "@semantic-release/changelog": "^6.0.3", "@semantic-release/git": "^10.0.1", "@semantic-release/npm": "^12.0.1", "@sveltejs/adapter-auto": "^6.0.1", "@sveltejs/adapter-static": "^3.0.8", "@tailwindcss/cli": "^4.1.5", "@tailwindcss/vite": "^4.1.7", "mdsvex": "^0.12.6", "semantic-release": "^24.2.4", "tailwind-merge": "^3.2.0" }, "peerDependencies": { "@sveltejs/kit": "^2.0.0", "svelte": "^5.0.0" } }, "sha512-rWGLv6E//M+RKuqKNSJGMqOZ5JyAyY7bt5zL218gABjpFzA5ItXhwYm3D6uJ65mZkQc460Uvh2rDRGIu3lFO3Q=="],
+    "sk-clib": ["sk-clib@1.7.0", "", { "dependencies": { "@semantic-release/changelog": "^6.0.3", "@semantic-release/git": "^10.0.1", "@semantic-release/npm": "^12.0.1", "@sveltejs/adapter-auto": "^6.0.1", "@sveltejs/adapter-static": "^3.0.8", "@tailwindcss/cli": "^4.1.5", "@tailwindcss/vite": "^4.1.7", "mdsvex": "^0.12.6", "semantic-release": "^24.2.4", "tailwind-merge": "^3.2.0" }, "peerDependencies": { "@sveltejs/kit": "^2.0.0", "svelte": "^5.0.0" } }, "sha512-91ECXGuiXlZLMNqKTuJDghwNE41sOFpk4DNBKNeF6PZyuFBa2ONo48tjsbzcmscQY2ChG8e+UDA0N1FUtSgDRw=="],
 
     "skin-tone": ["skin-tone@2.0.0", "", { "dependencies": { "unicode-emoji-modifier-base": "^1.0.0" } }, "sha512-kUMbT1oBJCpgrnKoSr0o6wPtvRWT9W9UKvGLwfJYO2WuahZRHOpEyL1ckyMGgMWh0UdpmaoFqKKD29WTomNEGA=="],
 
