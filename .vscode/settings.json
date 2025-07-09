@@ -2,5 +2,16 @@
     "autopep8.args": [
         "--max-line-length",
         "200"
-    ]
+    ],
+    "python.analysis.extraPaths": [
+        "./packages/backend/venv/lib/python3.13/site-packages"
+    ],
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportArgumentType": "none",
+        "reportAttributeAccessIssue": "none",
+        "reportOptionalMemberAccess": "none",
+        "reportIncompatibleVariableOverride": "none",
+        "reportAssignmentType": "none",
+        "reportReturnType": "none"
+    }
 }
