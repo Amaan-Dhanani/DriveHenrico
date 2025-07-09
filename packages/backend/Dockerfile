@@ -1,21 +1,20 @@
 FROM alpine:3.19
 
 ## Install Packages
-RUN apk add --update --no-cache python3 pipx git libpq-dev gcc py3-pip python3-dev g++
-
-# Instal Siblnk
-RUN pipx install siblink
-
-# Set path to use the siblink command
-
-ENV PATH="${PATH}:/root/.local/bin"
-
-# Copy Project
-COPY . /backend
+RUN apk add --update --no-cache python3 git libpq-dev gcc py3-pip python3-dev g++
 
 WORKDIR /backend
 
-# Build backend w/ Siblink
-RUN siblink init
+# Copy Project
+COPY . ./
 
-CMD ["siblink", "run", "."]
+# Build venv
+RUN python -m venv venv
+
+# Activate environment
+RUN source /backend/venv/bin/active
+
+# Install requirements
+RUN pip install -r requirements.txt
+
+CMD ["python", "main.py"]

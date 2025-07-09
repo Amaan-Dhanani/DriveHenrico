@@ -6,8 +6,9 @@ start:
 
 # Starts the docker process in development mode
 [working-directory: './']
-dev:
-    docker compose -f compose.yml -f dev.compose.yml up --build -d
+@dev SERVICE="":
+    docker compose -f compose.yml -f dev.compose.yml up --build -d {{SERVICE}} > /dev/null 2>&1
+    docker compose logs -f --tail=100 {{SERVICE}}
 
 # Runs the frontend portion of the app
 [working-directory: './packages/frontend']

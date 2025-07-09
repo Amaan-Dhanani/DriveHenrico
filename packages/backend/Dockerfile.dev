@@ -1,0 +1,18 @@
+FROM alpine:3.19
+
+## Install Packages
+RUN apk add --update --no-cache python3 git libpq-dev gcc py3-pip python3-dev g++
+
+# Copy Project
+
+WORKDIR /backend
+
+COPY requirements.txt ./
+
+# Build venv
+RUN python -m venv venv
+
+# Install requirements using the venv's pip
+RUN /backend/venv/bin/pip install --upgrade pip && /backend/venv/bin/pip install -r requirements.txt
+
+CMD ["/backend/venv/bin/python", "main.py"]
