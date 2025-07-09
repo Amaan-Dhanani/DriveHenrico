@@ -1,7 +1,7 @@
 FROM alpine:3.19
 
 ## Install Packages
-RUN apk add --update --no-cache python3 git libpq-dev gcc py3-pip python3-dev g++
+RUN apk add --update --no-cache python3 git libpq-dev gcc py3-pip python3-dev g++ py3-virtualenv
 
 # Copy Project
 
@@ -9,10 +9,11 @@ WORKDIR /backend
 
 COPY requirements.txt ./
 
-# Build venv
-RUN python -m venv venv
+# Build venv using virtualenv (ensures pip is present)
+RUN python3 -m virtualenv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
 # Install requirements using the venv's pip
-RUN /backend/venv/bin/pip install --upgrade pip && /backend/venv/bin/pip install -r requirements.txt
+RUN /opt/venv/bin/pip install --upgrade pip && /opt/venv/bin/pip install -r requirements.txt
 
-CMD ["/backend/venv/bin/python", "main.py"]
+CMD ["/opt/venv/bin/watchmedo", "auto-restart", "--patterns=*.py", "--recursive", "--", "/opt/venv/bin/python", "main.py"]
