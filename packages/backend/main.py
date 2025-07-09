@@ -1,7 +1,11 @@
+from time import sleep
 import uvicorn
-
 from quart import Quart
 
-app = Quart(__name__)
+from utils.helper.config import Yaml
 
-uvicorn.run(app, **{"port": 4000, "host": "0.0.0.0"})
+# app = Quart(__name__)
+
+# uvicorn.run(app, **{"port": 4000, "host": "0.0.0.0"})
+
+print(Yaml().parse())
