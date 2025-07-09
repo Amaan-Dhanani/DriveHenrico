@@ -16,6 +16,7 @@ services:
 
     volumes:
       - ./packages/backend:/backend
+      - ./config.yaml:/backend/config.yaml      
 
 networks:
   docker-network:

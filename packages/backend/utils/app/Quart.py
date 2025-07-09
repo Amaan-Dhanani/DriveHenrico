@@ -91,10 +91,10 @@ class Quart(quart.Quart):
     def __cache_blueprint__(self, blueprint: quart.Blueprint) -> None:
         """
         Caches a blueprint into cls.blueprints and registers it while also checking if the blueprint has already been cached.
-        :arg blueprint: :class:`quart.Blueprint`: Blueprint object which inherits or is a `quart.blueprint` object ex: :class:`cloakquart.Blueprint`
+        :arg blueprint: :class:`quart.Blueprint`: Blueprint object which inherits or is a `quart.blueprint` object ex: :class:`app.Blueprint`
         """
         if blueprint.name in self.blueprints:
-            raise HighLevelException(f"CloakQUart already contains `{blueprint}`")
+            raise HighLevelException(f"App already contains `{blueprint}`")
         self.register_blueprint(blueprint)
         self.blueprints[blueprint.name] = blueprint
         Logger.__log__(
