@@ -17,6 +17,9 @@ services:
     env_file:
       - .env
 
+    volumes:
+      - ./config.yaml:/backend/config.yaml
+
   frontend:
     # Frontend Stuff
     container_name: frontend

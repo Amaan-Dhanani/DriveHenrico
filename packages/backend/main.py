@@ -1,7 +1,9 @@
+
+import sys
+sys.dont_write_bytecode = True
+
 import uvicorn
+from utils.app.Quart import app
 
-from quart import Quart
+uvicorn.run(app, **app.uvicorn_config)
 
-app = Quart(__name__)
-
-uvicorn.run(app, **{"port": 4000, "host": "0.0.0.0"})
