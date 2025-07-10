@@ -1,0 +1,13 @@
+backend:
+  uvicorn_config:
+    # Backend Port, Don't mess with this unless you plan on re-doing the docker config
+    port: 4000 
+
+    # Host ip address for backend, also don't mess with ths
+    host: "0.0.0.0"
+  
+  database:
+
+    # For development, this doesn't need to be changed, but for prod, be careful :)
+    uri: "mogodb://database.{$APP_DOMAIN}"
+    

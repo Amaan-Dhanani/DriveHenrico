@@ -16,7 +16,7 @@ services:
 
     volumes:
       - ./packages/backend:/backend
-      - ./config.yaml:/backend/config.yaml
+      - ./config.yml:/backend/config.yml
 
 
   # Mongo Database Developer

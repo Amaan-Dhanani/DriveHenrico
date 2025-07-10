@@ -18,7 +18,7 @@ services:
       - .env
 
     volumes:
-      - ./config.yaml:/backend/config.yaml
+      - ./config.yml:/backend/config.yml:ro
 
   frontend:
     # Frontend Stuff

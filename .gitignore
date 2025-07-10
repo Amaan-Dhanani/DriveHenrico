@@ -1,3 +1,6 @@
 
 # Environment Variables (Unsafe to leave in repo)
 .env
+
+# Configuration File (Unsafe to leave in repo)
+config.yml

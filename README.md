@@ -65,8 +65,11 @@ Run `just -l` in the terminal to view them
 
 
 ## Configuration
-Everything needed to know to configure different parts of this application. Most of it should be in `yaml` format but some of it *especially credentials* will be in a `.env` file.
+Everything needed to know to configure different parts of this application. Most of it should be in `yaml` format but some of it *especially credentials* will be in a `.env` file. But other things that are only used in the backend will be in `yaml` format
 
+
+### Yaml Config
+This project requries a config.yaml file to be present. this file dictates most of the function of the backend so its crucial. Take from config.example.yml
 
 ### Routing Configurations
 <details>
