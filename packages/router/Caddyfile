@@ -1,8 +1,16 @@
+# Database
+database.{$APP_DOMAIN} {
+    reverse_proxy database:27017
+    tls internal
+}
+
+# Backend
 api.{$APP_DOMAIN} {
     reverse_proxy backend:4000
     tls internal
 }
 
+# Frontend
 {$APP_DOMAIN} {
     reverse_proxy frontend:3000
     tls internal
