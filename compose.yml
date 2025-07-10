@@ -60,6 +60,26 @@ services:
     env_file:
       - .env
 
+  database:
+    image: mongo
+    container_name: database
+    ports:
+      - "27017:27017"
+    volumes:
+      - "mongodb_data:/data/db"
+      - ./packages/database/mongo.conf:/etc/mongo/mongo.conf:rw
+    networks:
+      - docker-network
+    command: 
+      - '--logpath'
+      - '/var/log/mongodb/mongod.log'
+      - '--config'
+      - '/etc/mongo/mongo.conf'
+
+volumes:
+  mongodb_data:
+    driver: local
+
 networks:
   docker-network:
     driver: bridge
