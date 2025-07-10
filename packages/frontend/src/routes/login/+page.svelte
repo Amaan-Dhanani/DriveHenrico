@@ -16,30 +16,24 @@
 
 <Flex col fill class="mt-20">
 	<!-- Header -->
-	<Header xxl bold class="ml-4 sm:ml-0">Get Started</Header>
-	<Text lg class="opacity-80 ml-4 sm:ml-0">Enter your details below to start your journey!</Text>
+	<Header xxl bold class="ml-4 sm:ml-0">Sign In</Header>
+	<Text lg class="opacity-80 ml-4 sm:ml-0">Welcome back to DriveHenrico!</Text>
 
 	<!-- Form Section -->
 	<Frame flex col fill class="mt-2 box-border rounded-t-2xl p-6 dark:bg-[#2F2F42]">
 		<form class="box-border flex size-full flex-col" {onsubmit}>
-			<Input class="mb-4" type="text" id="name_input" name="name" label="Full Name"/>
 			<Input class="mb-4" type="email" id="email_input" name="email" label="Email" />
-			<Input type="password" class="mb-[12px]" id="password_input" label="Password" name="password"/>
+			<Input type="password" class="mb-8" id="password_input" label="Password" name="password"/>
 			
-			<RadioHorizontal
-				label="Account Type"
-				name="access"
-				bind:selected
-				divClass="mb-8"
-				labelClass="mb-1"
-				options={[{ value: 'Student' }, { value: 'Parent' }, { value: 'Teacher' }]}
-			/>
-
-			<Button type="submit" class="rounded-xl text-white cursor-pointer mb-4">Register</Button>
+			<Button type="submit" class="rounded-xl text-white cursor-pointer mb-4">Sign In</Button>
 
 			<Flex row center class="gap-2">
 				<Text lg class="opacity-80">Already have an account?</Text>
 				<a href="/login" class="text-primary underline font-bold">Sign In</a>
+			</Flex>
+			<Flex row center class="gap-2">
+				<Text lg class="opacity-80">Forgot Password?</Text>
+				<a href="/forget " class="text-primary underline font-bold">Click here</a>
 			</Flex>
 		</form>
 	</Frame>

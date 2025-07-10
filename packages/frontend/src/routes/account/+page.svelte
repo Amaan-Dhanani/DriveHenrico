@@ -16,8 +16,8 @@
 
 <Flex col fill class="mt-20">
 	<!-- Header -->
-	<Header xxl bold class="ml-4 sm:ml-0">Get Started</Header>
-	<Text lg class="opacity-80 ml-4 sm:ml-0">Enter your details below to start your journey!</Text>
+	<Header xxl bold>Get Started</Header>
+	<Text lg class="opacity-80">Enter your details below to start your journey!</Text>
 
 	<!-- Form Section -->
 	<Frame flex col fill class="mt-2 box-border rounded-t-2xl p-6 dark:bg-[#2F2F42]">
