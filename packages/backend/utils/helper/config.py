@@ -13,7 +13,7 @@ import yaml
 
 from siblink import Config
 
-_BLANK = object()
+_SENTINEL = object()
 
 
 class Primitive(ABC):
@@ -126,7 +126,7 @@ class Primitive(ABC):
         return _in
 
     @abstractmethod
-    def parse(self, lazy: bool = False, default: Optional[Any] = _BLANK) -> dict:
+    def parse(self, lazy: bool = False, default: Optional[Any] = _SENTINEL) -> dict:
         """
         Parses the given file, returns a dictionary object.
 
@@ -164,13 +164,13 @@ class Primitive(ABC):
         """
         Returns default specified within the keyword arguments as long is default isn't a blank value
         """
-        if kwargs.get("default", _BLANK) != _BLANK:
+        if kwargs.get("default", _SENTINEL) != _SENTINEL:
             return kwargs.get("default")
 
         raise kwargs.get("error", NotImplementedError("No Error Specified"))
 
     @on_fail(return_default)
-    def get(self, key: str = "", default: Optional[Any] = _BLANK) -> Any:
+    def get(self, key: str = "", default: Optional[Any] = _SENTINEL) -> Any:
         """
         Gets a value from the parsed file.
 
@@ -186,7 +186,7 @@ class Primitive(ABC):
 
         # Get config from parse function
         config: Dict[str, Any] = self.parse()
-        
+
         if key == "":
             return config
 
@@ -224,6 +224,6 @@ class Yaml(Primitive):
     def __init__(self, path: str = "config.yml"):
         super().__init__(path)
 
-    def parse(self, lazy: bool = False, default: Optional[Any] = _BLANK) -> dict:
+    def parse(self, lazy: bool = False, default: Optional[Any] = _SENTINEL) -> dict:
         contents: str = self.read(lazy, "")
         return self.populate_environment(yaml.load(contents, Loader=yaml.FullLoader))
