@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { Input } from '$lib';
-	import { RadioHorizontal } from '$lib';
 	import { Header, Text } from '@ui';
 	import { Button, Flex, Frame } from 'sk-clib';
+	import CodeInput from '@lib/components/code_input/components/CodeInput.svelte';
 	let selected = '';
 	
 	async function onsubmit(event: Event) {
@@ -26,7 +26,8 @@
 			
 			<Button type="submit" class="rounded-xl text-white cursor-pointer mb-4">Send Code</Button>
 
-			<Input class="mb-4" inputmode="numeric" pattern="[0-9]*" id="code" name="code" label="Verify the code below. DEV NOTE: THIS LOCKS MOBILE USERS TO THE NUMBERIC KEYBOARD!" />
+			<CodeInput name="code"/>
+			<p class="text-[#858597] text-[14px]">Verify the code below. DEV NOTE: THIS LOCKS MOBILE USERS TO THE NUMBERIC KEYBOARD!</p>
 			<Button type="submit" class="rounded-xl text-white cursor-pointer mb-4">Verify Code</Button>
 
 
