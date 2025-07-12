@@ -1,12 +1,17 @@
-
+from asyncio import sleep
 import sys
+from typing import Any, Dict
 sys.dont_write_bytecode = True
 
+import logging
 import uvicorn
-from utils.app.Quart import app
-from siblink import Config
-from utils.helper.config import Yaml
 
+from siblink import Config
+Config.gather_predetermined()  # Gather base config vars immediately
+
+from utils.console import console
+from utils.app.Quart import app
+from utils.helper.config import Yaml
 
 # Ensure Config
 try:
@@ -17,7 +22,22 @@ except FileNotFoundError:
 
 
 # Load Everything
-Config.gather_predetermined()
 app.register_blueprints()
 
-uvicorn.run(app, **Yaml().get("backend.uvicorn_config"))
+
+@app.before_serving
+async def startup_log():
+    yml = Yaml()
+    uvicorn_config = yml.get("backend.uvicorn_config")
+    
+    console.info(f"Status : [green]Active[/]")
+    console.info(f"IP     : http://{uvicorn_config['host']}:{uvicorn_config['port']}")
+    console.info(f"Domain : https://api.{yml.get('app_domain')}")
+
+
+console.info("Waiting for application startup")
+
+yml = Yaml()
+raw = yml.get("backend.uvicorn_config")
+populated: Dict[str, Any] = yml.populate_environment(raw)
+uvicorn.run(app, **populated)
