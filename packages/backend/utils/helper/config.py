@@ -3,13 +3,13 @@ This module has one simple purpose: Find and Parse given configuration files.
 In this file, imports are handled
 """
 
-import os
 import re
+import yaml
+
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any, Callable, Dict, Optional
 
-import yaml
+from typing import Any, Callable, Dict, Optional, Union
 
 from siblink import Config
 
@@ -91,8 +91,6 @@ class Primitive(ABC):
 
         return self.file.read_text(encoding="utf-8")
 
-    from typing import Union
-
     def populate_environment(self, _in: Union[str, Dict, list, tuple]) -> Union[str, Dict, list, tuple]:
         """
         Takes a string, dict, list, or tuple and recursively populates all environment variables
@@ -102,11 +100,11 @@ class Primitive(ABC):
         :return: Populated version of the input
         :raises KeyError: If a referenced environment variable is not found
         """
-        pattern = re.compile(r"\{\$([A-Z0-9_]+)\}")
+        pattern = re.compile(r"\{([A-Za-z0-9_.]+)\}")
 
         def replacer(match):
             var_name = match.group(1)
-            return os.environ[var_name]  # This raises KeyError if missing
+            return str(self.get(var_name))
 
         if isinstance(_in, str):
             return pattern.sub(replacer, _in)
@@ -226,4 +224,4 @@ class Yaml(Primitive):
 
     def parse(self, lazy: bool = False, default: Optional[Any] = _SENTINEL) -> dict:
         contents: str = self.read(lazy, "")
-        return self.populate_environment(yaml.load(contents, Loader=yaml.FullLoader))
+        return yaml.load(contents, Loader=yaml.FullLoader)

@@ -7,15 +7,11 @@ services:
       dockerfile: ./Dockerfile
 
     ports:
-      - '4000:4000'
+      - "4000:4000"
 
     # Network Bridge
     networks:
       - docker-network
-
-    # Environment Variables
-    env_file:
-      - .env
 
     volumes:
       - ./config.yml:/backend/config.yml:ro
@@ -28,15 +24,11 @@ services:
       dockerfile: ./Dockerfile
 
     ports:
-      - '3000:3000'
+      - "3000:3000"
 
     # Network Bridge
     networks:
       - docker-network
-    
-    # Environment Variables
-    env_file:
-      - .env
 
   router:
     # Router Stuff (caddy)
@@ -45,20 +37,13 @@ services:
       context: packages/router
       dockerfile: ./Dockerfile
 
-    environment:
-      - APP_DOMAIN=${APP_DOMAIN}
-    
     ports:
-     - "80:80"
-     - "443:443"
+      - "80:80"
+      - "443:443"
 
     # Network Bridge
     networks:
       - docker-network
-    
-    # Environment Variables
-    env_file:
-      - .env
 
   database:
     image: mongo
@@ -70,11 +55,11 @@ services:
       - ./packages/database/mongo.conf:/etc/mongo/mongo.conf:rw
     networks:
       - docker-network
-    command: 
-      - '--logpath'
-      - '/var/log/mongodb/mongod.log'
-      - '--config'
-      - '/etc/mongo/mongo.conf'
+    command:
+      - "--logpath"
+      - "/var/log/mongodb/mongod.log"
+      - "--config"
+      - "/etc/mongo/mongo.conf"
 
 volumes:
   mongodb_data:

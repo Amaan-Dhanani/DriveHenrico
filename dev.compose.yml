@@ -18,13 +18,10 @@ services:
       - ./packages/backend:/backend
       - ./config.yml:/backend/config.yml
 
-
   # Mongo Database Developer
   database:
     volumes:
       - ./packages/database/dev.mongo.conf:/etc/mongo/mongo.conf:rw # Insecure DEV ONLY
-
-   
 
 networks:
   docker-network:

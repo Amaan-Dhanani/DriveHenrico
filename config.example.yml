@@ -1,3 +1,5 @@
+app_domain: "127.0.0.1.nip.io"
+
 backend:
   uvicorn_config:
     # Backend Port, Don't mess with this unless you plan on re-doing the docker config
@@ -5,9 +7,12 @@ backend:
 
     # Host ip address for backend, also don't mess with ths
     host: "0.0.0.0"
+
+    # Prevent logging
+    log_level: "error"
   
   database:
 
     # For development, this doesn't need to be changed, but for prod, be careful :)
-    uri: "mogodb://database.{$APP_DOMAIN}"
+    uri: "mongodb://database.{$APP_DOMAIN}"
     
