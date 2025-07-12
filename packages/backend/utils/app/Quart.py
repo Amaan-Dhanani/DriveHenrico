@@ -7,10 +7,10 @@ import importlib.util
 import importlib.machinery
 
 import os
-from utils.logger import Logger
 from utils.types import Severity
 from utils.exception import HighLevelException
 from utils.app.Blueprint import Blueprint
+from utils.console import console
 
 from typing import Callable
 
@@ -69,7 +69,6 @@ class Quart(quart.Quart):
             )
 
         if spec is None:
-            # ;; Logger.__log__(f"spec value is None")
             return None
 
         library = importlib.util.module_from_spec(spec)
@@ -97,9 +96,7 @@ class Quart(quart.Quart):
             raise HighLevelException(f"App already contains `{blueprint}`")
         self.register_blueprint(blueprint)
         self.blueprints[blueprint.name] = blueprint
-        Logger.__log__(
-            f"Cached and registered blueprint: {blueprint.name}", severity=Severity.Info
-        )
+        console.info(f"Cached and registered blueprint: {blueprint.name}")
 
     @classmethod
     def resolve_name(cls, name: str, package: str | None = None) -> str | None:
@@ -113,10 +110,7 @@ class Quart(quart.Quart):
         try:
             return importlib.util.resolve_name(name, package)
         except ImportError as e:
-            Logger.__log__(
-                f"Import Error (name:str): {name} && (package: str | None): {package}, Error: ({e})",
-                Severity.Fatal,
-            )
+            console.error(f"Import error (name:str): {name} && (package: str | None): {package}, Error: ({e})")
             return None
 
     def register_blueprints(self) -> None:
@@ -174,17 +168,11 @@ class Quart(quart.Quart):
                         try:
                             await f()
                         except Exception as e:
-                            Logger.__log__(
-                                f'Task {colors.vibrant_blue}{name}{colors.vibrant_red} FAILED {colors.vibrant_orange}"{e}"',
-                                severity=Severity.Warning,
-                            )
+                            console.warn("Task [blue]{name}[/blue] [red]FAILED[/red] [orange1]{e}[/orange1]")
                             traceback.print_exc()
                         await asyncio.sleep(interval)
-
-                Logger.__log__(
-                    f"Registered Task {colors.vibrant_blue}{name}",
-                    severity=Severity.Info,
-                )
+                        
+                console.info(f"Registered Task [blue]{name}[/blue]")
 
                 asyncio.get_running_loop().create_task(modified())
 

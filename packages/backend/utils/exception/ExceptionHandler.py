@@ -1,6 +1,6 @@
 from typing import Any, Callable, Optional, Union
+from utils.console import console
 from utils.exception import HighLevelException
-from utils.logger import Logger
 import inspect
 
 
@@ -16,11 +16,11 @@ class ExceptionHandler:
 
   def __log__(self, error: HighLevelException):
     """
-    Pointer method to `Logger.__log__`
+    Pointer method to `console.error`
     :arg error: HighLevelException: HighLevelException object which contains a SeverityChild like object
     """
-    severity = error.severity
-    Logger.__log__(str(error), severity=severity, log_in_file=True)
+    console.error(error)
+    
 
   def __on_error__(self, error: Exception, function: Callable) -> None:
     """

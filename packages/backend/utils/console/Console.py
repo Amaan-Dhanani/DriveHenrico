@@ -213,10 +213,13 @@ class Console:
                     parent: str = Path(frame.filename).parent.name
                     filename = Path(frame.filename).stem
                     lineno = frame.lineno
-                    return f"{parent}/{filename}:{lineno}"
-            return "unknown:0"
+                    return f"[dim]{parent}/{filename}:{lineno}[/dim]"
+            return "[dim]unknown:0[/dim]"
+        
+        def with_padding():
+            return f"{get_file_and_line():<30}"
 
-        return lambda: f"[dim underline]{get_file_and_line()}[/dim underline]"
+        return lambda: f"{with_padding()}"
 
     @__prepend(__make_tag("DBG", "spring_green1"), __get_caller())
     @__print
