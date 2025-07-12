@@ -1,7 +1,9 @@
 {
     "autopep8.args": [
         "--max-line-length",
-        "200"
+        "200",
+        "--ignore",
+        "E402"
     ],
     "python.analysis.extraPaths": [
         "./packages/backend/venv/lib/python3.13/site-packages"
