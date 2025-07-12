@@ -79,9 +79,8 @@ class Quart(quart.Quart):
             raise error
 
         if not hasattr(library, "blueprint"):
-            raise HighLevelException(
-                f"No Blueprint Variable found in {library}", severity=Severity.Fatal
-            )
+            console.warn(f"No blueprint variable found in [orange1 underline]{spec.name.replace('.', '/')}.py[/]")
+            return
 
         external_blueprint = getattr(library, "blueprint")
 
