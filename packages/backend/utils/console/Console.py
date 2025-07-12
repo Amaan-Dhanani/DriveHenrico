@@ -1,4 +1,3 @@
-
 import sys
 import inspect
 from typing import Any, Callable, List
@@ -40,9 +39,8 @@ class Console:
         self.stream = Stream(sys.stdout, file.open(mode="a+"))
 
         # Private console object
-        self.__console = RichConsole(file=self.stream, force_terminal=True)
+        self.__console = RichConsole(width=120, file=self.stream, force_terminal=True, log_path=False)
         self.clear = self.__console.clear
-
 
     @staticmethod
     def __prepend(*args, **kwargs):
@@ -92,6 +90,58 @@ class Console:
 
                 # Repackage function arguments
                 f_args = buffer + list(f_args)
+                return f(self, *f_args, **f_kwargs)
+            return wrapper
+        return decorator
+
+    def __append(*args, **kwargs):
+        """
+        Decorator used to append extra data to the end of a function's arguments before calling it.
+
+        Usage
+        -----
+
+        ```python
+        def get_const():
+            return "world"
+
+        @append("hello", get_const)
+        def greet(*args):
+            print(*args)
+
+        greet("and")
+        >>>> and hello world
+        ```
+
+        :param args: Static values or callables to evaluate and append to the argument list
+        :param kwargs: Optional keyword arguments passed to callables (if needed)
+        :return: A decorated function with modified argument list
+        """
+        def decorator(f: Callable):
+            def wrapper(self, *f_args, **f_kwargs):
+
+                # Empty Array
+                buffer: List[Any] = []
+
+                # Iterate and possibly unpackage arguments
+                for argument in args:
+
+                    # Is callable, should get a returned value
+                    if isinstance(argument, Callable):
+                        _signature = inspect.signature(argument)
+
+                        if len(_signature.parameters) == 0:
+                            buffer.append(argument())
+                            continue
+
+                        buffer.append(argument(*args, **kwargs))
+                        continue
+
+                    # No special conditions passed
+                    buffer.append(argument)
+
+                # Repackage function arguments
+                f_args = list(f_args) + buffer
                 return f(self, *f_args, **f_kwargs)
             return wrapper
         return decorator
@@ -148,33 +198,47 @@ class Console:
         return decorator
 
     @staticmethod
-    def __make_tag(tag: str, style: str = "spring_green1", pad: int = 4):
+    def __make_tag(tag: str, style: str = "spring_green1", pad: int = 3):
         """
         Makes a tag so the source isn't too ugly. A tag is like DBG, ERR, INF, etc
         """
         return lambda: f"[{style}]{tag:<{pad}}[/{style}]"
 
-    @__prepend(__make_tag("DBG", "spring_green1"))
+    @staticmethod
+    def __get_caller():
+
+        def get_file_and_line():
+            for frame in inspect.stack():
+                if "Console.py" not in frame.filename:
+                    parent: str = Path(frame.filename).parent.name
+                    filename = Path(frame.filename).stem
+                    lineno = frame.lineno
+                    return f"{parent}/{filename}:{lineno}"
+            return "unknown:0"
+
+        return lambda: f"[dim underline]{get_file_and_line()}[/dim underline]"
+
+    @__prepend(__make_tag("DBG", "spring_green1"), __get_caller())
     @__print
     def debug(self, *_) -> None:
         pass
 
-    @__prepend(__make_tag("LOG", "deep_sky_blue2"))
+    @__prepend(__make_tag("LOG", "deep_sky_blue2"), __get_caller())
     @__print
     def log(self, *_) -> None:
         pass
 
-    @__prepend(__make_tag("IFO", "purple3"))
+    @__prepend(__make_tag("IFO", "purple3"), __get_caller())
     @__print
     def info(self, *_) -> None:
         pass
 
-    @__prepend(__make_tag("WRN", "dark_orange3"))
+    @__prepend(__make_tag("WRN", "dark_orange3"), __get_caller())
     @__print
     def warn(self, *_) -> None:
         pass
 
-    @__prepend(__make_tag("ERR", "red3"))
+    @__prepend(__make_tag("ERR", "red3"), __get_caller())
     @__print
     def error(self, *_, **__) -> None:
         pass
