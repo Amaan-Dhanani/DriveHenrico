@@ -1,24 +1,24 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+	import { onMount } from 'svelte';
 
 	export let length = 6;
-	export let value = "";
-	export let placeholder = "•";
-	export let name = "code";
-	export let inputWrapClass = "";
-	export let inputClass = "";
-	export let containerClass = "";
+	export let value = '';
+	export let placeholder = '•';
+	export let name = 'code';
+	export let inputWrapClass = '';
+	export let inputClass = '';
+	export let containerClass = '';
 	export let onChange: (code: string) => void = () => {};
 
-	let codeValues: string[] = Array(length).fill("");
+	let codeValues: string[] = Array(length).fill('');
 	let inputRefs: (HTMLInputElement | null)[] = [];
 
-	$: joinedcode = codeValues.join("");
+	$: joinedcode = codeValues.join('');
 
 	onMount(() => {
 		if (value) {
-			const init = value.slice(0, length).split("");
-			codeValues = [...init, ...Array(length - init.length).fill("")];
+			const init = value.slice(0, length).split('');
+			codeValues = [...init, ...Array(length - init.length).fill('')];
 		}
 		onChange(joinedcode);
 	});
@@ -28,7 +28,7 @@
 		let val = input.value;
 
 		// Remove any non‑digit characters (optional)
-		val = val.replace(/\D/g, "");
+		val = val.replace(/\D/g, '');
 
 		/*
 		 * --- New behaviour ---
@@ -54,45 +54,45 @@
 	}
 
 	function handleKeyDown(e: KeyboardEvent, idx: number) {
-		if (e.key === "Backspace") {
+		if (e.key === 'Backspace') {
 			if (codeValues[idx]) {
 				// Clear current and stay
-				codeValues[idx] = "";
+				codeValues[idx] = '';
 			} else if (idx > 0) {
 				// Move back and clear previous
 				inputRefs[idx - 1]?.focus();
-				codeValues[idx - 1] = "";
+				codeValues[idx - 1] = '';
 			}
 			onChange(joinedcode);
 			e.preventDefault();
-		} else if (e.key === "ArrowLeft" && idx > 0) {
+		} else if (e.key === 'ArrowLeft' && idx > 0) {
 			inputRefs[idx - 1]?.focus();
-		} else if (e.key === "ArrowRight" && idx < length - 1) {
+		} else if (e.key === 'ArrowRight' && idx < length - 1) {
 			inputRefs[idx + 1]?.focus();
-		} else if (e.key === "ArrowLeft" && idx == 0) {
-      inputRefs[idx]?.focus();
-      snapCaretRight(e);
-    }
+		} else if (e.key === 'ArrowLeft' && idx == 0) {
+			inputRefs[idx]?.focus();
+			snapCaretRight(e);
+		}
 	}
 
 	function handlePaste(e: ClipboardEvent) {
 		e.preventDefault();
-		const data = e.clipboardData?.getData("text") ?? "";
-		const chars = data.slice(0, length).replace(/\D/g, "").split("");
-		codeValues = [...chars, ...Array(length - chars.length).fill("")];
+		const data = e.clipboardData?.getData('text') ?? '';
+		const chars = data.slice(0, length).replace(/\D/g, '').split('');
+		codeValues = [...chars, ...Array(length - chars.length).fill('')];
 		inputRefs[Math.min(chars.length, length - 1)]?.focus();
 		onChange(joinedcode);
 	}
 
-  function snapCaretRight(event: Event) {
-    const input = event.target as HTMLInputElement;
+	function snapCaretRight(event: Event) {
+		const input = event.target as HTMLInputElement;
 
-    // Snap caret to the end on next tick
-    requestAnimationFrame(() => {
-      const len = input.value.length;
-      input.setSelectionRange(len, len);
-    });
-  }
+		// Snap caret to the end on next tick
+		requestAnimationFrame(() => {
+			const len = input.value.length;
+			input.setSelectionRange(len, len);
+		});
+	}
 </script>
 
 <div class={`flex gap-2 ${containerClass}`}>
@@ -103,20 +103,20 @@
 				bind:value={codeValues[idx]}
 				inputmode="numeric"
 				maxlength="2"
-        pattern="[0-9]{1}"
+				pattern="[0-9]"
 				autocomplete="one-time-code"
-				placeholder={placeholder}
-				class={`w-full rounded border border-gray-300 text-center text-lg placeholder:opacity-40 focus:outline-none focus:border-blue-600 ${inputClass}`}
+				{placeholder}
+				class={`w-full rounded border border-gray-300 text-center text-lg placeholder:opacity-40 focus:border-blue-600 focus:outline-none ${inputClass}`}
 				oninput={(e) => handleInput(e, idx)}
 				onkeydown={(e) => handleKeyDown(e, idx)}
 				onpaste={handlePaste}
-        onfocus={snapCaretRight}
-        onmousedown={snapCaretRight}
+				onfocus={snapCaretRight}
+				onmousedown={snapCaretRight}
 				name={null}
 			/>
 		</div>
 	{/each}
 
 	<!-- Final joined input -->
-	<input type="hidden" name={name} bind:value={joinedcode} />
+	<input type="hidden" {name} bind:value={joinedcode} />
 </div>
