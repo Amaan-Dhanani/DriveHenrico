@@ -14,6 +14,13 @@ stop SERVICE="":
 @dev SERVICE="" *FLAGS:
     bash scripts/before.sh && docker compose -f compose.yml -f dev.compose.yml up --build {{SERVICE}} {{FLAGS}}
 
+
+# Starts the docker process in testing mode
+[working-directory: './']
+@test SERVICE="" *FLAGS:
+    bash scripts/before.sh && docker compose -f compose.yml -f dev.compose.yml -f test.compose.yml up --build {{SERVICE}} {{FLAGS}}
+
+
 # Runs the frontend portion of the app
 [working-directory: './packages/frontend']
 frontend:

@@ -1,0 +1,23 @@
+services:
+  backend-test:
+    container_name: backend-test
+    build:
+      context: packages/backend
+      dockerfile: ./Dockerfile.test
+
+    depends_on:
+      - router
+      - backend
+
+    volumes:
+      - ./packages/backend:/tests
+      - ./config.yml:/tests/config.yml
+
+    # Network Bridge
+    networks:
+      - docker-network
+
+
+networks:
+  docker-network:
+    driver: bridge
