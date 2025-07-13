@@ -18,6 +18,15 @@ services:
       - ./packages/backend:/backend
       - ./config.yml:/backend/config.yml
 
+  nodered:
+    image: nodered/node-red:latest
+    container_name: nodered
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./nrd_data:/data
+    restart: unless-stopped
+
   # Mongo Database Developer
   database:
     volumes:
