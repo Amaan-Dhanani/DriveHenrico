@@ -2,7 +2,7 @@
 	import { Input } from '$lib';
 	import { Header, Text } from '@ui';
 	import { Button, Flex, Frame } from 'sk-clib';
-	import CodeInput from '@lib/components/code_input/components/CodeInput.svelte';
+	import { CodeInput } from '@components';
 	let selected = '';
 	
 	async function onsubmit(event: Event) {
