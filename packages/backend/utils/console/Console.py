@@ -41,6 +41,7 @@ class Console:
         # Private console object
         self.__console = RichConsole(width=120, file=self.stream, force_terminal=True, log_path=False)
         self.clear = self.__console.clear
+        self.print_exception = self.__console.print_exception
 
     @staticmethod
     def __prepend(*args, **kwargs):
