@@ -1,0 +1,23 @@
+[
+    {
+        "id": "65cfca055694391c",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f4085333af98b96c",
+        "type": "complete",
+        "z": "65cfca055694391c",
+        "name": "",
+        "scope": [],
+        "uncaught": false,
+        "x": 410,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    }
+]

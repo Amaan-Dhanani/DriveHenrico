@@ -24,7 +24,7 @@ services:
     ports:
       - "1880:1880"
     volumes:
-      - ./nrd_data:/data
+      - ./packages/nodered:/data
     restart: unless-stopped
 
   # Mongo Database Developer
