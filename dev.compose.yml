@@ -25,7 +25,13 @@ services:
       - "1880:1880"
     volumes:
       - ./packages/nodered:/data
+
+    # Network Bridge
+    networks:
+      - docker-network
+
     restart: unless-stopped
+    
 
   # Mongo Database Developer
   database:

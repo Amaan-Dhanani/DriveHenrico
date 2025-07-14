@@ -8,16 +8,265 @@
         "env": []
     },
     {
-        "id": "f4085333af98b96c",
-        "type": "complete",
+        "id": "88e3d5716959634c",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": true
+    },
+    {
+        "id": "4a27628483365330",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "b2a9153f57d69bea",
+        "type": "ui-page",
+        "name": "Page 1",
+        "ui": "88e3d5716959634c",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "4a27628483365330",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": 0,
+                "cols": 3
+            },
+            {
+                "name": "Tablet",
+                "px": 576,
+                "cols": 6
+            },
+            {
+                "name": "Small Desktop",
+                "px": 768,
+                "cols": 9
+            },
+            {
+                "name": "Desktop",
+                "px": 1024,
+                "cols": 12
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "30420cdba814b36b",
+        "type": "ui-group",
+        "name": "Group 1",
+        "page": "b2a9153f57d69bea",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false,
+        "groupType": "default"
+    },
+    {
+        "id": "5918599750f62c4c",
+        "type": "websocket-client",
+        "path": "ws://backend:4000/auth/signup",
+        "tls": "",
+        "wholemsg": "false",
+        "hb": "0",
+        "subprotocol": "",
+        "headers": []
+    },
+    {
+        "id": "7b9732493241ef5b",
+        "type": "websocket-listener",
+        "path": "ws://backend:4000/auth/signup",
+        "wholemsg": "false"
+    },
+    {
+        "id": "0bf38374dcfb1308",
+        "type": "http request",
         "z": "65cfca055694391c",
         "name": "",
-        "scope": [],
-        "uncaught": false,
-        "x": 410,
-        "y": 280,
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://backend:4000/health",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 390,
+        "y": 140,
+        "wires": [
+            [
+                "483d3945358702bb"
+            ]
+        ]
+    },
+    {
+        "id": "483d3945358702bb",
+        "type": "debug",
+        "z": "65cfca055694391c",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "ad3a9d4bda9d7f73",
+        "type": "inject",
+        "z": "65cfca055694391c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 200,
+        "y": 140,
+        "wires": [
+            [
+                "0bf38374dcfb1308"
+            ]
+        ]
+    },
+    {
+        "id": "f3374910f970d2fd",
+        "type": "inject",
+        "z": "65cfca055694391c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 200,
+        "y": 240,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "8df7f399e1bbd563",
+        "type": "websocket out",
+        "z": "65cfca055694391c",
+        "name": "",
+        "server": "",
+        "client": "5918599750f62c4c",
+        "x": 720,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "3c58fda56875e8ba",
+        "type": "inject",
+        "z": "65cfca055694391c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 200,
+        "y": 360,
+        "wires": [
+            [
+                "7fa2b0178a059d3f"
+            ]
+        ]
+    },
+    {
+        "id": "7fa2b0178a059d3f",
+        "type": "function",
+        "z": "65cfca055694391c",
+        "name": "function 1",
+        "func": "msg.payload = {\n    \"operation\": \"ping\"\n}\n\nnode.warn(`Pusing ${msg.payload.operation}`)\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 360,
+        "wires": [
+            [
+                "8df7f399e1bbd563"
+            ]
         ]
     }
 ]
