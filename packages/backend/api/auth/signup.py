@@ -1,5 +1,6 @@
 # === Core ===
 import hashlib
+from operator import truediv
 import secrets
 import random
 
@@ -66,9 +67,36 @@ async def auth_signup_post(key: str, value: str, data: AuthSignupPostData):
     return {"operation": "auth:signup:await_code", "data": {"verification_id": verification_id}}
 
 
-async def auth_signup_confirm_code(*args, **kwargs):
-    console.info("auth:signup:confirm_code", log_locals=True)
-    return {"hello":  "again"}
+class AuthSignupConfirmCodeData(TypedDict):
+    id: str
+    code: str
+
+
+async def auth_signup_confirm_code(key: str, value: str, data: AuthSignupConfirmCodeData):
+    
+    VerificationSearch = MongoClient.verification.find_one({"_id": data["id"]})
+    if not VerificationSearch:
+        return {"operation": value, "error": "Verification ID not found"}
+    
+    if VerificationSearch["code"] != data["code"]:
+        return {"operation": value, "error": "Incorrect Code"}
+    
+    UserSearch = MongoClient.users.find_one({"_id": VerificationSearch["account_id"]})
+    if not UserSearch:
+        return {"operation": value, "error": "User object not found"}    
+    
+    # Make account verified
+    MongoClient.users.update_one({"_id": VerificationSearch["account_id"]}, {"$set": {"verified": True}})
+    
+    # Delete Verification Id
+    MongoClient.verification.delete_one({"_id": data["id"]})
+    
+    # Create Session Token
+    token = "session_{}".format(secrets.token_hex(32))
+    MongoClient.sessions.insert_one({"_id": token, "account_id": VerificationSearch["account_id"], "expires": None})
+    
+    # return session token    
+    return {"operation": value, "data": {"token": token}}
 
 
 _ws = Websocket()
