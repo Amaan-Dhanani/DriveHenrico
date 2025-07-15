@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { cn } from '@lib/utils';
 	import type { MenuProps } from '..';
-	import  { portal } from svelte-portak
+	import { portal } from 'svelte-portal';
 
 	import { setCtx } from '../ctx';
 	import type { ClassValue } from 'clsx';
