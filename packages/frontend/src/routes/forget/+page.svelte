@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Input } from '$lib';
+	import { Input } from '@lib';
 	import { Header, Text } from '@ui';
 	import { Button, Flex, Frame } from 'sk-clib';
-	import { CodeInput } from '@lib/components';
+	import { CodeInput } from '@components';
 	let selected = '';
 	
 	async function onsubmit(event: Event) {

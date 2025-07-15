@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Input } from '$lib';
-	import { RadioHorizontal } from '$lib';
+	import { Input } from '@lib';
+	import { RadioHorizontal } from '@lib';
 	import { Header, Text } from '@ui';
 	import { Button, Flex, Frame } from 'sk-clib';
 	let selected = '';
