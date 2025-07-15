@@ -1,7 +1,6 @@
 # === Core ===
 import asyncio
 from quart import websocket
-from quart.ctx import has_websocket_context
 
 # === Utilities ===
 from utils.console import console
@@ -80,9 +79,15 @@ class Websocket:
             # Skip if key doesn't equal value and listener value isn't sentinel
             if not json_request[listener.key] == listener.value and listener.value != _SENTINEL:
                 continue
+            
+            callback_payload = {
+                "key": listener.key,
+                "value": listener.value,
+                "data": json_request.get("data", None)
+            }
 
             # Run callback
-            response = await listener.callback(key=listener.key, value=listener.value)
+            response = await listener.callback(**callback_payload)
             await websocket.send_json(response)
 
     def init(self, func: Callable):
