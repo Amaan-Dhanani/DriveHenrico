@@ -17,20 +17,21 @@
 	<!-- Header -->
 	<Header xxl bold>Get Started</Header>
 	<Text lg class="opacity-80">Enter your details below to start your journey!</Text>
-
 	<!-- Form Section -->
 	<Frame flex col fill class="mt-2 box-border rounded-t-2xl p-6 dark:bg-[#2F2F42]">
-		<form class="flex flex-row items-end gap-4 rounded-t-xl bg-white p-6 pb-0 dark:bg-[#2F2F42]">
+			TO BE DISPLAYED, IF YOU ARE LOGGED IN
+		<form class="flex flex-row items-end gap-4 rounded-t-xl bg-white px-6 dark:bg-[#2F2F42]">
 			<div class="flex-1">
 				<Input type="text" id="name_input" name="name" label="Name" value="NAME IN BATABASE" />
 			</div>
-			<Button>Update</Button>
+			<Button class="text-white">Update</Button>
 		</form>
 		<form class="flex flex-row items-end gap-4 bg-white p-6 pb-0 dark:bg-[#2F2F42]">
 			<div class="flex-1">
 				<Input type="email" id="email_input" name="email" label="Email" value="EMAIL IN DATABASE" />
 			</div>
-			<Button>Update</Button>
+			<Button class="text-white">Update</Button>
 		</form>
+			TO BE DISPLAYED WHENEVER
 	</Frame>
 </Flex>
