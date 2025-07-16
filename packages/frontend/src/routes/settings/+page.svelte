@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { Input } from '@lib';
+	import { Input, Dropdown, DropdownBtn } from '@components';
 	import { Header, Text } from '@ui';
 	import { Button, Flex, Frame } from 'sk-clib';
-	let selected = '';
 
 	async function onsubmit(event: Event) {
 		event.preventDefault(); // Stop default behavior
@@ -33,5 +32,15 @@
 			<Button class="text-white">Update</Button>
 		</form>
 			TO BE DISPLAYED WHENEVER
+		<div class="flex flex-row items-end gap-4 bg-white p-6 pb-0 dark:bg-[#2F2F42]">
+			<Dropdown>
+				<DropdownBtn link="/account">Option</DropdownBtn>
+				<DropdownBtn link="/account">Option</DropdownBtn>
+				<DropdownBtn link="/account">Option</DropdownBtn>
+				<DropdownBtn type="divider"/>
+				
+			
+			</Dropdown>
+		</div>
 	</Frame>
 </Flex>

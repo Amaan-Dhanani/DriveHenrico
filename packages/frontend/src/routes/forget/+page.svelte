@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { Input } from '@lib';
+	import { Input, CodeInput } from '@components';
 	import { Header, Text } from '@ui';
 	import { Button, Flex, Frame } from 'sk-clib';
-	import { CodeInput } from '@components';
 	let selected = '';
 	
 	async function onsubmit(event: Event) {
@@ -37,7 +36,7 @@
 			</Flex>
 			<Flex row center class="gap-2">
 				<Text lg class="opacity-80">Don't have an account?</Text>
-				<a href="/register " class="text-primary underline font-bold">Sign Up</a>
+				<a href="/register" class="text-primary underline font-bold">Sign Up</a>
 			</Flex>
 		</form>
 	</Frame>
