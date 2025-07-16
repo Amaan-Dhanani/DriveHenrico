@@ -12,6 +12,8 @@ class MongoClient:
     
     database: pymongo.database.Database = client["drivehenrico"]
     
+    
+    
     # Collections
     sessions: pymongo.collection.Collection = database["sessions"]
     users: pymongo.collection.Collection = database["users"]

@@ -1,6 +1,7 @@
 # === Core ===
+from dataclasses import asdict
 import hashlib
-from operator import truediv
+from re import I
 import secrets
 import random
 
@@ -9,9 +10,15 @@ from utils import app
 from utils.console import console
 from utils.helper.websocket import Websocket
 from utils.mongo.Client import MongoClient
+from utils.mongo.abc import users_collection, verification_collection, credentials_collection
+
+from utils.types.user import User
+from utils.types.verification import Verification
+from utils.types.credentials import Credentials
 
 # === Type Hinting ===
 from typing import TypedDict
+
 
 blueprint = app.Blueprint("api:@signup", __name__)
 
@@ -30,41 +37,25 @@ async def auth_signup_post(key: str, value: str, data: AuthSignupPostData):
         return {"operation": value, "error": "An account with this email already exists"}
     
     # Generate Salt & Hash
+    id = "user_{}".format(secrets.token_hex(32))
     salt = secrets.token_hex(32)
     hashed = hashlib.sha512((data["password"] + salt).encode("utf-8")).hexdigest()
-    id = "user_{}".format(secrets.token_hex(32))
+    credentials = Credentials.create({"email": data["email"], "hashed": hashed, "salt": salt, "_id": id}) 
+    credentials_collection.insert(asdict(credentials))
+
     
-    # Save Credentials
-    MongoClient.credentials.insert_one({
-        "email": data["email"],
-        "hashed": hashed,
-        "salt": salt,
-        "_id": id
-    })
-    
-    # Push user to database
-    MongoClient.users.insert_one({
-        "email": data["email"],
-        "account_type": data["account_type"],
-        "verified": False,
-        "_id": id
-    })
+    # Create and insert user
+    user = User.create({"email": data["email"], "account_type": data["account_type"], "_id": id})
+    users_collection.insert(asdict(user))    
     
     # create verification id and code pair
-    verification_id = "verification_{}".format(secrets.token_hex(64))
-    verification_code = "".join(random.choices('0123456789', k=6))
-    
-    # push verification_id and code to database
-    MongoClient.verification.insert_one({
-        "account_id": id,
-        "code": verification_code,
-        "_id": verification_id
-    })
-    
+    verification = Verification.create({"account_id": user._id})
+    verification_collection.insert(asdict(verification))
+
     # send email
-    console.info("Sending email to {}, code sent: {}".format(data["email"], verification_code))    
+    console.info(f"Sending email to {user.email}, code sent: {verification.code}")    
     
-    return {"operation": "auth:signup:await_code", "data": {"verification_id": verification_id}}
+    return {"operation": "auth:signup:await_code", "data": {"verification_id": verification._id}}
 
 
 class AuthSignupConfirmCodeData(TypedDict):
