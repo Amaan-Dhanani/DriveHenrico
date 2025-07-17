@@ -5,7 +5,7 @@ Class abstractions for the database side of things
 
 # === Base ===
 from pymongo.collection import Collection
-from pymongo.results import InsertOneResult
+from pymongo.results import InsertOneResult, UpdateResult
 
 # === Type Hinting ===
 from typing import Any, Mapping, Type, TypeVar, Union
@@ -71,6 +71,12 @@ class MongoCollectionBase(ABC):
             return False
         return True
     
+    def _update(self, filter: Mapping[str, Any], update: Mapping[str, Any], *args, **kwargs) -> UpdateResult:
+        """
+        Updates a document, template method
+        """
+        return self.collection.update_one(filter, update, *args, **kwargs)
+    
         
     @abstractmethod
     def find(self, *args, **kwargs) -> Any:
@@ -90,6 +96,13 @@ class MongoCollectionBase(ABC):
     def exists(self, *args, **kwargs) -> bool:
         """
         Abstract method used in conjunction with the supplied `_exists` method. This method should call `_exists`
+        """
+        pass
+    
+    @abstractmethod
+    def update(self, filter: Mapping[str, Any], update: Mapping[str, Any], *args, **kwargs) -> UpdateResult:
+        """
+        Abstract method used in conjunction with the supplied `_update` method. this method should call `_update`
         """
         pass
     
@@ -135,6 +148,16 @@ class UsersCollection(MongoCollectionBase):
     
     def exists(self, id: str) -> bool:
         return self._exists(id=id)
+    
+    def update(self, id: str, operation: str, data: Mapping[str, Any]) -> UpdateResult:
+        """
+        Updates a user with a given `id` and `operation`
+        
+        :param str id: User ID
+        :param str operation: Mongo Operation
+        :param str data: Update data
+        """
+        return self._update({"_id": id}, {operation: data})
 
 class VerificationCollection(MongoCollectionBase):
     """
@@ -179,6 +202,16 @@ class VerificationCollection(MongoCollectionBase):
     def exists(self, id: str) -> bool:
         return self._exists(id=id)
     
+    def update(self, id: str, operation: str, data: Mapping[str, Any]) -> UpdateResult:
+        """
+        Updates a verification object with a given `id` and `operation`
+        
+        :param str id: Verification ID
+        :param str operation: Mongo Operation
+        :param str data: Update data
+        """
+        return self._update({"_id": id}, {operation: data})
+    
 class CredentialsCollection(MongoCollectionBase):
     """
     Abstract Credentials Collection class to help manage credential structures within the database
@@ -221,6 +254,16 @@ class CredentialsCollection(MongoCollectionBase):
     
     def exists(self, id: str) -> bool:
         return self._exists(id=id)
+    
+    def update(self, id: str, operation: str, data: Mapping[str, Any]) -> UpdateResult:
+        """
+        Updates a credential object with a given `id` and `operation`
+        
+        :param str id: Credential ID
+        :param str operation: Mongo Operation
+        :param str data: Update data
+        """
+        return self._update({"_id": id}, {operation: data})
 
 users_collection = UsersCollection()
 verification_collection = VerificationCollection()

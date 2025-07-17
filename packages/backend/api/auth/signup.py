@@ -1,9 +1,7 @@
 # === Core ===
 from dataclasses import asdict
 import hashlib
-from re import I
 import secrets
-import random
 
 # === Utilities ===
 from utils import app
@@ -65,26 +63,23 @@ class AuthSignupConfirmCodeData(TypedDict):
 
 async def auth_signup_confirm_code(key: str, value: str, data: AuthSignupConfirmCodeData):
     
-    VerificationSearch = MongoClient.verification.find_one({"_id": data["id"]})
-    if not VerificationSearch:
+    if not verification_collection.exists(data["id"]):
         return {"operation": value, "error": "Verification ID not found"}
     
-    if VerificationSearch["code"] != data["code"]:
+    verification_object = verification_collection.get(data["id"])
+    if verification_object.code != data["code"]:
         return {"operation": value, "error": "Incorrect Code"}
     
-    UserSearch = MongoClient.users.find_one({"_id": VerificationSearch["account_id"]})
-    if not UserSearch:
-        return {"operation": value, "error": "User object not found"}    
+    if not users_collection.exists(verification_object.account_id):
+        return {"operation": value, "error": "User object not found"}
     
-    # Make account verified
-    MongoClient.users.update_one({"_id": VerificationSearch["account_id"]}, {"$set": {"verified": True}})
+    users_collection.update(verification_object.account_id, "$set", {"verified": True})
     
-    # Delete Verification Id
-    MongoClient.verification.delete_one({"_id": data["id"]})
-    
+    verification_collection.delete(verification_object._id)
+
     # Create Session Token
     token = "session_{}".format(secrets.token_hex(32))
-    MongoClient.sessions.insert_one({"_id": token, "account_id": VerificationSearch["account_id"], "expires": None})
+    MongoClient.sessions.insert_one({"_id": token, "account_id": verification_object.account_id, "expires": None})
     
     # return session token    
     return {"operation": value, "data": {"token": token}}
