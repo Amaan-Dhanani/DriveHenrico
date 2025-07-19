@@ -2,7 +2,8 @@
 import random
 from secrets import token_hex
 from pydantic import Field
-from utils import WrapperModel
+from utils.abc.handlers.base import WrapperModel
+from utils.abc.handlers.user import User
 
 # === Database ===
 from pymongo.collection import Collection
@@ -10,7 +11,6 @@ from utils.mongo.Client import MongoClient
 
 # === Types ===
 from typing import ClassVar, Self
-from utils.abc import User
 
 class Verification(WrapperModel):
     account_id: str

@@ -1,7 +1,8 @@
 # === Core ===
 from pydantic import Field
 from secrets import token_hex
-from utils import WrapperModel
+from utils.abc.handlers.base import WrapperModel
+from utils.abc.handlers.user import User
 
 # === Database ===
 from pymongo.collection import Collection
@@ -9,7 +10,6 @@ from utils.mongo.Client import MongoClient
 
 # === Types ===
 from typing import ClassVar, Self
-from utils.abc import User
 
 class Session(WrapperModel):
     account_id: str

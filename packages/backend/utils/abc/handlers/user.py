@@ -1,7 +1,7 @@
 # === Core ===
 from pydantic import Field
 from secrets import token_hex
-from utils import WrapperModel
+from utils.abc.handlers.base import WrapperModel
 
 # === Database ===
 from pymongo.collection import Collection
