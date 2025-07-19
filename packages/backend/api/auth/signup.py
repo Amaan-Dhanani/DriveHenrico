@@ -1,18 +1,15 @@
 # === Core ===
-from dataclasses import asdict
-import hashlib
-import secrets
+
 
 # === Utilities ===
 from utils import app
 from utils.console import console
 from utils.helper.websocket import Websocket
-from utils.mongo.Client import MongoClient
-from utils.mongo.abc import users_collection, verification_collection, credentials_collection
+from utils.abc.handlers.user import User
+from utils.abc.handlers.credential import Credential
+from utils.abc.handlers.verification import Verification
+from utils.abc.handlers.session import Session
 
-from utils.types.user import User
-from utils.types.verification import Verification
-from utils.types.credentials import Credentials
 
 # === Type Hinting ===
 from typing import TypedDict
@@ -26,34 +23,23 @@ class AuthSignupPostData(TypedDict):
     account_type: str
 
 async def auth_signup_post(key: str, value: str, data: AuthSignupPostData):
+     
+    if User.email_exists(data["email"]):
+        raise ValueError("Email already exists")
     
-    # For now assume email, password, and account_type are valid
+    # Insert New User
+    new_user = User.create({"account_type": data["account_type"], "email": data["email"] }).insert()
     
-    # Check if email already exists
-    search_user = MongoClient.users.find_one({"email": data["email"]})
-    if search_user:
-        return {"operation": value, "error": "An account with this email already exists"}
+    # Insert Credentials
+    Credential.create(new_user, data["password"]).insert()
     
-    # Generate Salt & Hash
-    id = "user_{}".format(secrets.token_hex(32))
-    salt = secrets.token_hex(32)
-    hashed = hashlib.sha512((data["password"] + salt).encode("utf-8")).hexdigest()
-    credentials = Credentials.create({"email": data["email"], "hashed": hashed, "salt": salt, "_id": id}) 
-    credentials_collection.insert(asdict(credentials))
-
+    # Insert Verification
+    new_verification = Verification.create(new_user).insert()
     
-    # Create and insert user
-    user = User.create({"email": data["email"], "account_type": data["account_type"], "_id": id})
-    users_collection.insert(asdict(user))    
+    console.info(f"Sending email to {new_user.email}, code sent: {new_verification.code}")   
     
-    # create verification id and code pair
-    verification = Verification.create({"account_id": user._id})
-    verification_collection.insert(asdict(verification))
-
-    # send email
-    console.info(f"Sending email to {user.email}, code sent: {verification.code}")    
+    return {"verification_id": new_verification.id}
     
-    return {"operation": "auth:signup:await_code", "data": {"verification_id": verification._id}}
 
 
 class AuthSignupConfirmCodeData(TypedDict):
@@ -63,26 +49,24 @@ class AuthSignupConfirmCodeData(TypedDict):
 
 async def auth_signup_confirm_code(key: str, value: str, data: AuthSignupConfirmCodeData):
     
-    if not verification_collection.exists(data["id"]):
-        return {"operation": value, "error": "Verification ID not found"}
+    if not Verification.exists(data["id"]):
+        raise KeyError("Verification ID Doesn't exist")
     
-    verification_object = verification_collection.get(data["id"])
-    if verification_object.code != data["code"]:
-        return {"operation": value, "error": "Incorrect Code"}
+    verification = Verification.get(data["id"])
+    if verification.code != data["code"]:
+        raise ValueError("Incorrect Code")
     
-    if not users_collection.exists(verification_object.account_id):
-        return {"operation": value, "error": "User object not found"}
+    if not User.exists(verification.account_id):
+        raise LookupError(f"User with id {verification.account_id} does not exist.")
     
-    users_collection.update(verification_object.account_id, "$set", {"verified": True})
+    user = User.get(verification.account_id) # Fails if not found
+    user.update("$set", {"verified": True})
     
-    verification_collection.delete(verification_object._id)
+    new_session = Session.create(user).insert()
+    verification.delete()
+    
+    return {"token": new_session.id}
 
-    # Create Session Token
-    token = "session_{}".format(secrets.token_hex(32))
-    MongoClient.sessions.insert_one({"_id": token, "account_id": verification_object.account_id, "expires": None})
-    
-    # return session token    
-    return {"operation": value, "data": {"token": token}}
 
 
 _ws = Websocket()
