@@ -3,9 +3,11 @@ import asyncio
 from quart import websocket
 
 # === Utilities ===
-from utils.console import console
 from utils import _cv_websocket_message
+
+from utils.console import console
 from utils.ctx import WebsocketMessageContext
+from utils.exception.websocket import WebsocketException
 
 # === Type Hinting ===
 from typing import Any, Awaitable, Callable, List, Optional
@@ -87,16 +89,18 @@ class Websocket:
             _cv_websocket_message.set(WebsocketMessageContext(
                 operation=listener.value,
                 data=json_request.get("data", None)
-            ))
-            
-            callback_payload = {
-                "key": listener.key,
-                "value": listener.value,
-                "data": json_request.get("data", None)
-            }            
+            ))       
 
-            response = await listener.callback(**callback_payload)
-            await websocket.send_json(response)
+            try:
+                response = await listener.callback()
+            except Exception as e:                
+                if not isinstance(e, WebsocketException):
+                    console.info(e.__class__.__dict__)
+                    e = WebsocketException(None, f"Unregistered Error {e.__class__.__name__} {e.__str__()}")                
+                await websocket.send_json(e.json)
+            else:
+                await websocket.send_json(response)
+            
 
     def init(self, func: Callable):
         """

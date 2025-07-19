@@ -4,9 +4,8 @@ from utils import app, websocket_message
 from utils.console import console
 from utils.helper.websocket import Websocket
 from utils.abc import User, Credential, Verification, Session
+from utils.exception.websocket import EmailExistsError, NotExistsError
 
-# === Type Hinting ===
-from typing import TypedDict, cast
 
 
 blueprint = app.Blueprint("api:@signup", __name__)
@@ -24,7 +23,7 @@ async def auth_signup_post(*_, **__):
     data: D_AuthSignupPost = websocket_message.cast_data(D_AuthSignupPost)
 
     if User.exists(email=data.email):
-        raise ValueError("Email already exists")
+        raise EmailExistsError(data.email)
 
     user = User.create(**{
         "email": data.email,
@@ -39,16 +38,18 @@ async def auth_signup_post(*_, **__):
 
     return {"verification_id": verification.id}
 
+
 @dataclass
 class D_AuthSignupConfirmCode:
     id: str
     code: str
 
+
 async def auth_signup_confirm_code(*_, **__):
     data: D_AuthSignupConfirmCode = websocket_message.cast_data(D_AuthSignupConfirmCode)
 
     if not Verification.exists(id=data.id):
-        raise KeyError("Verification ID doesn't exists")
+        raise NotExistsError("Verification ID", data.id)
 
     verification = Verification.get(id=data.id)
     if verification.code != data.code:
