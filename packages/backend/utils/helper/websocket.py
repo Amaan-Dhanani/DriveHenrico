@@ -4,6 +4,8 @@ from quart import websocket
 
 # === Utilities ===
 from utils.console import console
+from utils import _cv_websocket_message
+from utils.ctx import WebsocketMessageContext
 
 # === Type Hinting ===
 from typing import Any, Awaitable, Callable, List, Optional
@@ -80,13 +82,19 @@ class Websocket:
             if not json_request[listener.key] == listener.value and listener.value != _SENTINEL:
                 continue
             
+            
+            # Update Current Message Context
+            _cv_websocket_message.set(WebsocketMessageContext(
+                operation=listener.value,
+                data=json_request.get("data", None)
+            ))
+            
             callback_payload = {
                 "key": listener.key,
                 "value": listener.value,
                 "data": json_request.get("data", None)
-            }
+            }            
 
-            # Run callback
             response = await listener.callback(**callback_payload)
             await websocket.send_json(response)
 

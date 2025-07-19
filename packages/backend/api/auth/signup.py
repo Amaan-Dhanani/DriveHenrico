@@ -1,34 +1,37 @@
 # === Utilities ===
-from utils import app
+from dataclasses import dataclass
+from utils import app, websocket_message
 from utils.console import console
 from utils.helper.websocket import Websocket
 from utils.abc import User, Credential, Verification, Session
 
-
 # === Type Hinting ===
-from typing import TypedDict
+from typing import TypedDict, cast
 
 
 blueprint = app.Blueprint("api:@signup", __name__)
 
 
-class AuthSignupPostData(TypedDict):
+@dataclass
+class D_AuthSignupPost:
     email: str
     password: str
     account_type: str
 
 
-async def auth_signup_post(key: str, value: str, data: AuthSignupPostData):
+async def auth_signup_post(*_, **__):
 
-    if User.exists(email=data["email"]):
+    data: D_AuthSignupPost = websocket_message.cast_data(D_AuthSignupPost)
+
+    if User.exists(email=data.email):
         raise ValueError("Email already exists")
 
     user = User.create(**{
-        "email": data["email"],
-        "account_type": data["account_type"]
+        "email": data.email,
+        "account_type": data.account_type
     }).insert()
 
-    Credential.from_user(user, data["password"]).insert()
+    Credential.from_user(user, data.password).insert()
 
     verification = Verification.from_user(user).insert()
 
@@ -36,19 +39,19 @@ async def auth_signup_post(key: str, value: str, data: AuthSignupPostData):
 
     return {"verification_id": verification.id}
 
-
-class AuthSignupConfirmCodeData(TypedDict):
+@dataclass
+class D_AuthSignupConfirmCode:
     id: str
     code: str
 
+async def auth_signup_confirm_code(*_, **__):
+    data: D_AuthSignupConfirmCode = websocket_message.cast_data(D_AuthSignupConfirmCode)
 
-async def auth_signup_confirm_code(key: str, value: str, data: AuthSignupConfirmCodeData):
-
-    if not Verification.exists(id=data["id"]):
+    if not Verification.exists(id=data.id):
         raise KeyError("Verification ID doesn't exists")
 
-    verification = Verification.get(id=data["id"])
-    if verification.code != data["code"]:
+    verification = Verification.get(id=data.id)
+    if verification.code != data.code:
         raise ValueError("Incorrect Code")
 
     user = User.get(id=verification.account_id)
