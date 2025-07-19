@@ -93,13 +93,21 @@ class Websocket:
 
             try:
                 response = await listener.callback()
-            except Exception as e:                
-                if not isinstance(e, WebsocketException):
-                    console.info(e.__class__.__dict__)
-                    e = WebsocketException(None, f"Unregistered Error {e.__class__.__name__} {e.__str__()}")                
-                await websocket.send_json(e.json)
-            else:
                 await websocket.send_json(response)
+            
+            except WebsocketException as e:
+                if e.kill:
+                    await websocket.close(100)
+                else:
+                    await websocket.send_json(e.json)
+            
+            except Exception as e:
+                console.info(e.__class__.__dict__)
+                error = WebsocketException(
+                    message=f"Unregistered Error {e.__class__.__name__}: {e}"
+                )
+                await websocket.send_json(error.json)
+            
             
 
     def init(self, func: Callable):
