@@ -1,39 +1,32 @@
 # === Core ===
+from pydantic import Field
 from secrets import token_hex
-from dataclasses import asdict, dataclass, field
-from pymongo.collection import Collection
+from utils import WrapperModel
 
 # === Database ===
+from pymongo.collection import Collection
 from utils.mongo.Client import MongoClient
-collection: Collection = MongoClient.sessions
 
 # === Types ===
-from ..types.session import T_Session
-from ..handlers.user import User
+from typing import ClassVar, Self
+from utils.abc import User
 
-@dataclass
-class Session:
-    account_id: str    
-    id: str = field(default_factory=lambda: token_hex(64))
+class Session(WrapperModel):
+    account_id: str
+    id: str = Field(default_factory=lambda: token_hex(32))
+    __collection__: ClassVar[Collection] = MongoClient.sessions
 
     @classmethod
-    def create(cls, user: User):
-        buff: T_Session = {
-            "account_id": user.id,
-            "id": token_hex(64)
-        }
-        return cls(**buff)
-    
-    @classmethod
-    def exists(cls, id: str):
-        if not collection.find_one({"id": id}):
-            return False
-        return True
-    
-    @classmethod
-    def delete(cls, id: str):
-        return collection.delete_one({"id": id})
-    
-    def insert(self):
-        collection.insert_one(asdict(self))
-        return self 
+    def from_user(cls, user: User) -> Self:
+        """
+        Creates a new session model instance from a given user object
+
+        Initializes a `Session` using the `id` of the provided `User` instance
+        as the `account_id`. A new random session ID will be generated automatically.
+
+        :param User user: The user instance to associate the session with
+        :returns Self: A new session model instance
+        """
+        return cls(
+            account_id=user.id
+        )
