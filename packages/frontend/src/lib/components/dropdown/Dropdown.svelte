@@ -1,6 +1,8 @@
 <script>
-  import DropdownBtn from './components/DropdownBtn.svelte';
   import { onMount } from 'svelte';
+
+  export let name = 'Options';
+  export let children; // Function passed in as a prop
 
   let isOpen = false;
 
@@ -8,6 +10,7 @@
     isOpen = !isOpen;
   }
 
+  // @ts-ignore
   function handleClickOutside(event) {
     if (!event.target.closest('.dropdown')) {
       isOpen = false;
@@ -32,7 +35,7 @@
       aria-haspopup="true"
       aria-expanded={isOpen}
     >
-      <span>Options</span>
+      <span>{name}</span>
       <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
         <path
           fill-rule="evenodd"
@@ -51,7 +54,9 @@
       }`}
       role="menu"
     >
-    <slot/>
+      {#if children}
+        {@render children()}
+      {/if}
     </div>
   </div>
 </div>

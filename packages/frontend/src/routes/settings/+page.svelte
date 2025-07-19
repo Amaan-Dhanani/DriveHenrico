@@ -33,12 +33,11 @@
 		</form>
 			TO BE DISPLAYED WHENEVER
 		<div class="flex flex-row items-end gap-4 bg-white p-6 pb-0 dark:bg-[#2F2F42]">
-			<Dropdown>
-				<DropdownBtn link="/account">Option</DropdownBtn>
+			<Dropdown name="Theme">
+				<DropdownBtn link="/account"></DropdownBtn>
 				<DropdownBtn link="/account">Option</DropdownBtn>
 				<DropdownBtn link="/account">Option</DropdownBtn>
 				<DropdownBtn type="divider"/>
-				
 			
 			</Dropdown>
 		</div>
