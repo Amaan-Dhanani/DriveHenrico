@@ -46,7 +46,7 @@
 
 		<div class="flex flex-row items-end gap-4 bg-white p-6 pb-0 dark:bg-[#2F2F42]">
 
-			<Dropdown.Menu buttonClass="px-4 py-2 bg-white text-sm font-medium">
+			<Dropdown.Menu classButton="bg-red">
 
 				<Dropdown.Trigger>
 					<Dropdown.Button>Click me to open</Dropdown.Button>
