@@ -6,6 +6,10 @@ services:
       context: packages/backend
       dockerfile: ./Dockerfile
 
+    depends_on:
+      - router
+      - database
+
     ports:
       - "4000:4000"
 
@@ -22,6 +26,9 @@ services:
     build:
       context: packages/frontend
       dockerfile: ./Dockerfile
+
+    depends_on:
+      - router
 
     ports:
       - "3000:3000"
