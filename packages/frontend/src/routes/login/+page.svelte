@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { Input } from '@components';
+	import { Websocket } from '@utils';
 	import { Header, Text } from '@ui';
 	import { Button, Flex, Frame } from 'sk-clib';
+	import { onMount } from 'svelte';
 	let selected = '';
 	
 	async function onsubmit(event: Event) {
@@ -11,6 +13,21 @@
 		
 		console.log("Submitting", formData)
 	}
+
+	onMount(async () => {
+		const ws = new Websocket("/auth/signup")
+		await ws.connect()
+
+		const email = "email@email.com"
+		const password = "password"
+		const account_type = "dummy"
+
+		ws.on("auth:signup:post", async (error, data) => {
+			console.log("hi", error, data)
+		})
+
+		ws.send("auth:signup:post", {email, password, account_type})
+	})
 </script>
 
 <Flex col fill class="mt-20">
