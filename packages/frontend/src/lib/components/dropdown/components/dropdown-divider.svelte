@@ -16,10 +16,7 @@
     const {_class} = getDropdownCtx()
 
     // Setup Divider's class
-    let dividerCls = $state(cn(dividerClass, _class.dividerClass, _class.classDivider, className));
-    $effect(() => {
-        dividerCls = cn(dividerClass, _class.dividerClass, _class.classDivider, className)
-    })
+    let dividerCls = $derived(cn(dividerClass, _class.dividerClass, _class.classDivider, className));
 
 </script>
 

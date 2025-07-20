@@ -29,12 +29,8 @@
         }
     })
 
-
     // Setup Button's class
-    let buttonCls = $state(cn(buttonClass, _class.buttonClass, _class.classButton, className));
-    $effect(() => {
-        buttonCls = cn(buttonClass, _class.buttonClass, _class.classButton, className)
-    })
+    let buttonCls = $derived(cn(buttonClass, _class.buttonClass, _class.classButton, className));
 
 </script>
 

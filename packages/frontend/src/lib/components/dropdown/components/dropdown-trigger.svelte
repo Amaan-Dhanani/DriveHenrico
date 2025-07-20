@@ -19,14 +19,6 @@
     // --- Context ---
     const { _state, toggle, set } = getDropdownCtx()
 
-
-
-    // Setup Trigger's class
-    let triggerCls = $state(cn(triggerClass, className));
-    $effect(() => {
-        triggerCls = cn(triggerClass, className)
-    })
-
     function toggle_menu() {
         // Toggle State
         console.log("Should be toggling state")
@@ -48,7 +40,6 @@
         ) {
             set(false); // Close dropdown
         }
-
     }
 
     onMount(() => {
@@ -57,6 +48,9 @@
             document.removeEventListener("click", click_outside)
         }
     })
+
+    // Setup Trigger's class
+    let triggerCls = $derived(cn(triggerClass, className));
 
 </script>
 

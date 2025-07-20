@@ -16,10 +16,7 @@
     const { _state, _class } = getDropdownCtx();
 
     // Setup Content's class
-    let contentCls = $state(cn(contentClass, _class.contentClass, _class.classContent, className));
-    $effect(() => {
-        contentCls = cn(contentClass, _class.contentClass, _class.classContent, className)
-    })
+    let contentCls = $derived(cn(contentClass, _class.contentClass, _class.classContent, className));
 
 </script>
 

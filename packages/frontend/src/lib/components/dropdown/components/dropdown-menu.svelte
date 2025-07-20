@@ -32,17 +32,12 @@
 
     // Set Context Here
     const {_class} = setDropdownCtx()
-
-    // Populate button class down
-    $effect(() => {
-        _class.buttonClass = buttonClass
-        _class.contentClass = contentClass
-        _class.dividerClass = dividerClass
-
-        _class.classButton = classButton
-        _class.classContent = classContent
-        _class.classDivider = classDivider
-    })
+    _class.buttonClass = buttonClass
+    _class.contentClass = contentClass
+    _class.dividerClass = dividerClass
+    _class.classButton = classButton
+    _class.classContent = classContent
+    _class.classDivider = classDivider
 
 </script>
 
