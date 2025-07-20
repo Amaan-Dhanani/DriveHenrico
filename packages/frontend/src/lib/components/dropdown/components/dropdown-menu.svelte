@@ -3,11 +3,14 @@
     // --- Logic ---
     import { cn } from '@lib/utils';
     import type { Props } from ".."
+	import { setDropdownCtx } from '../ctx.svelte';
     
     let {
         children,
         class: className,
-        dropdownClass = $bindable('')
+        dropdownClass = $bindable(''),
+        buttonClass = $bindable('px-4 py-2 bg-white text-sm font-medium'),
+        ...rest
     }: Props = $props();
 
 
@@ -17,9 +20,17 @@
         dropdownCls = cn(dropdownClass, className)
     })
 
+    // Set Context Here
+    const {_class} = setDropdownCtx()
+
+    // Populate button class down
+    $effect(() => {
+        _class.buttonClass = buttonClass
+    })
+
 </script>
 
-<div class={ dropdownCls }>
+<div class={ dropdownCls } {...rest}>
     {@render children?.()}
 </div>
 
