@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { Input, Dropdown, DropdownBtn } from '@components';
+	import { Input, Dropdown } from '@components';
 	import { Header, Text } from '@ui';
 	import { Button, Flex, Frame } from 'sk-clib';
+	import { onMount } from 'svelte';
 
 	async function onsubmit(event: Event) {
 		event.preventDefault(); // Stop default behavior
@@ -10,6 +11,15 @@
 
 		console.log('Submitting', formData);
 	}
+
+	function callback() {
+		alert("Hi there :)")
+	}
+
+	onMount(() => {
+		console.log(Dropdown.Menu)
+	})
+
 </script>
 
 <Flex col fill class="mt-20">
@@ -32,14 +42,35 @@
 			<Button class="text-white">Update</Button>
 		</form>
 			TO BE DISPLAYED WHENEVER
+
+
 		<div class="flex flex-row items-end gap-4 bg-white p-6 pb-0 dark:bg-[#2F2F42]">
-			<Dropdown name="Theme">
-				<DropdownBtn link="/account"></DropdownBtn>
-				<DropdownBtn link="/account">Option</DropdownBtn>
-				<DropdownBtn link="/account">Option</DropdownBtn>
-				<DropdownBtn type="divider"/>
-			
-			</Dropdown>
+
+			<Dropdown.Menu buttonClass="px-4 py-2 bg-white text-sm font-medium">
+
+				<Dropdown.Trigger>
+					<Dropdown.Button>Click me to open</Dropdown.Button>
+				</Dropdown.Trigger>
+				
+				<Dropdown.Content>
+
+					<!-- Auto infers hrefs -->
+					<Dropdown.Button href="/account">Button Text</Dropdown.Button>
+					
+					<!-- Divider either with hr -->
+					<hr/>
+
+					<!-- onclick functionality -->
+					<Dropdown.Button onclick={callback}>Click me :)</Dropdown.Button>
+					
+					<!-- Or the builtin divider-->
+					<Dropdown.Divider/>
+					
+					<!-- This is a useless button ;( -->
+					<Dropdown.Button>Hiya :)</Dropdown.Button> 
+				</Dropdown.Content>
+
+			</Dropdown.Menu>
 		</div>
 	</Frame>
 </Flex>
