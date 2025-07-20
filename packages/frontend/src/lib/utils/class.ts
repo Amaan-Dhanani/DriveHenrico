@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { base } from '$app/paths';
 import { clsx, type ClassValue } from 'clsx';
-import { cubicOut } from 'svelte/easing';
 import { twMerge } from 'tailwind-merge';
 
 /**
@@ -89,29 +86,4 @@ export class cn_a {
 
 		return buffer.join(' '); // Return all the changes split
 	}
-}
-
-export function expand(node: HTMLElement, params: any, { duration = 300}) {
-	const height = node.scrollHeight;
-
-	return {
-		duration,
-		easing: params.easing || cubicOut,
-		css: (t: number) => `height: ${t * height}px; opacity: ${t}; margin-top: ${t * ((params.offset !== undefined) ? params.offset : 8)}px;`
-	};
-}
-
-export function uuidv4() {
-	return '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, (c) =>
-		(+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16)
-	);
-}
-
-export function reference_package_to_form(package_name: string, location: string | undefined = undefined) {
-	let buff: string = `?tour-package=${package_name}`;
-	if (location !== undefined) {
-		buff += `&location=${location}`
-	}
-	window.location.href=`${base}/form${buff}`
-	return buff
 }
