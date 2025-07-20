@@ -6,6 +6,13 @@ export type tDropdownProps = HTMLAttributes<HTMLDivElement> & {
     // --- Default Classes:
     dropdownClass?: ClassValue,
     buttonClass?: ClassValue
+    contentClass?: ClassValue,
+    dividerClass?: ClassValue
+
+    // --- User Defined Classes:
+    classButton?: ClassValue,
+    classContent?: ClassValue,
+    classDivider?: ClassValue
     
     // Extra Props Here:
     name?: string

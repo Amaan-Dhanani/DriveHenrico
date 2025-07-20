@@ -8,6 +8,12 @@ class DropdownContext {
 
 class StyleContext {
     public buttonClass: ClassValue = $state<ClassValue>('')
+    public contentClass: ClassValue = $state<ClassValue>('')
+    public dividerClass: ClassValue = $state<ClassValue>('')
+
+    public classButton: ClassValue = $state<ClassValue>('')
+    public classContent: ClassValue = $state<ClassValue>('')
+    public classDivider: ClassValue = $state<ClassValue>('')
 }
 
 export type tDropdownData = {
