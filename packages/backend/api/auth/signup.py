@@ -1,11 +1,15 @@
-# === Utilities ===
+# === Core ===
 from dataclasses import dataclass
+from datetime import datetime, timezone
+
+# === Utilities ===
 from utils import app, websocket_message
 from utils.console import console
 from utils.helper.websocket import Websocket
 from utils.abc import User, Credential, Verification, Session
 from utils.exception.websocket import EmailExistsError, NotExistsError
-
+from utils.mongo.Client import MongoClient
+from utils.app.Quart import app as _app
 
 
 blueprint = app.Blueprint("api:@signup", __name__)
@@ -56,7 +60,7 @@ async def auth_signup_confirm_code(*_, **__):
         raise ValueError("Incorrect Code")
 
     user = User.get(id=verification.account_id)
-    user.set({"verified": True})
+    user.set({"verified": True, "ttl": None})
 
     session = Session.from_user(user).insert()
     verification.delete()
@@ -73,3 +77,14 @@ _ws = Websocket()
 @_ws.on("operation", value="auth:signup:confirm_code", callback=auth_signup_confirm_code)
 async def signup_WS(*args, **kwargs):
     console.info("This shouldn't be called I don't think")
+
+
+@_app.register_task("unverified_cleanup", minutes=10)
+async def unverified_cleanup():
+    result = MongoClient.users.delete_many({
+        "verified": False,
+        "ttl": {"$lt": int(datetime.now(timezone.utc).timestamp())}
+    })
+    
+    if result.deleted_count > 0:
+        console.info(f"Unverified Cleanup Deleted {result.deleted_count} Accounts")

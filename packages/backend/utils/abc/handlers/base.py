@@ -2,6 +2,7 @@ from typing import Any, ClassVar, Self
 from pydantic import BaseModel
 from pymongo.collection import Collection
 from pymongo.results import UpdateResult, InsertOneResult
+from utils.console import console
 
 class WrapperModel(BaseModel):
     """
@@ -39,9 +40,9 @@ class WrapperModel(BaseModel):
         document.pop("_id", None)
         
         return document
-    
+
     @classmethod
-    def create(cls, **kwargs):        
+    def create(cls, **kwargs):
         """
         Creates a new model instance from the provided dictionary data
 
@@ -52,8 +53,17 @@ class WrapperModel(BaseModel):
         :returns Self: Instantiated model object
         """
 
-        return cls(**kwargs)
-    
+        instance = cls(**kwargs)
+
+        # Handle After Update Logic
+        after_create = getattr(instance, "after_create", None)
+        if callable(after_create):
+            result = after_create(instance)
+            if isinstance(result, cls):
+                return result
+            return instance
+        return instance
+
     def insert(self) -> Self:
         """
         Inserts the current model instance into the database and returns the instance
