@@ -92,7 +92,11 @@ class Websocket:
             ))       
 
             try:
-                response = await listener.callback()
+                callback_response: dict = await listener.callback()
+                response = {
+                    "operation": listener.value,
+                    "data": callback_response
+                }
                 await websocket.send_json(response)
             
             except WebsocketException as e:
