@@ -139,7 +139,6 @@ class Websocket:
 
         # Register the listener
         self.listeners.append(Listener(key=key, value=value, callback=callback))
-        console.debug("Pushed Listener", log_locals=True)
 
         def wrapper(func: Callable):
             async def decorator(*args, **kwargs):
