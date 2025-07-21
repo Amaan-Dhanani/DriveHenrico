@@ -1,56 +1,73 @@
 <script lang="ts">
-	import { Input } from '@components';
 	import { Websocket } from '@utils';
 	import { Header, Text } from '@ui';
-	import { Button, Flex, Frame } from 'sk-clib';
+	import { Flex, Frame } from 'sk-clib';
 	import { onMount } from 'svelte';
-	let selected = '';
-	
-	async function onsubmit(event: Event) {
-		event.preventDefault(); // Stop default behavior
 
-		const formData = Object.fromEntries(new FormData(event.target as HTMLFormElement));
-		
-		console.log("Submitting", formData)
-	}
+	import { setLoginCtx } from './ctx.svelte';
+	import { AccountTypeForm, CodeForm, CredentialForm, Success } from './_forms';
+	import { CapacitorCookies } from '@capacitor/core';
+
+	let { _state, _verification_state } = setLoginCtx();
+
+	$effect(() => {
+		console.log(_state.step);
+	});
 
 	onMount(async () => {
-		const ws = new Websocket("/auth/signup")
-		await ws.connect()
+		_state.ws = new Websocket('/auth/signup');
+		await _state.ws.connect();
 
-		const email = "email@email.com"
-		const password = "password"
-		const account_type = "dummy"
+		type PostResponseType = {
+			verification_id?: string;
+		};
 
-		ws.on("auth:signup:post", async (error, data) => {
-			console.log("hi", error, data)
+		_state.ws.on('auth:signup:post', async (error, data: PostResponseType) => {
+			if (error) {
+				console.error(error, data)
+				return
+			}
+
+			const { verification_id } = data;
+			_verification_state.id = verification_id;
+		});
+
+		type ConfirmCodeResponseType = {
+			token?: string
+		}
+
+		_state.ws.on('auth:signup:confirm_code', async(error, data: ConfirmCodeResponseType) => {
+			const {token} = data;
+			if (!token) throw new Error("No token present");
+			
+			console.log("Yippie you have a new token!")
+
+			await CapacitorCookies.setCookie({
+				"key": "token",
+				"value": token
+			})
+			
 		})
-
-		ws.send("auth:signup:post", {email, password, account_type})
-	})
+	});
 </script>
 
 <Flex col fill class="mt-20">
 	<!-- Header -->
 	<Header xxl bold class="ml-4 sm:ml-0">Sign In</Header>
-	<Text lg class="opacity-80 ml-4 sm:ml-0">Welcome back to DriveHenrico!</Text>
+	<Text lg class="ml-4 opacity-80 sm:ml-0">Welcome back to DriveHenrico!</Text>
 
 	<!-- Form Section -->
 	<Frame flex col fill class="mt-2 box-border rounded-t-2xl p-6 dark:bg-[#2F2F42]">
-		<form class="box-border flex size-full flex-col" {onsubmit}>
-			<Input class="mb-4" type="email" id="email_input" name="email" label="Email" />
-			<Input type="password" class="mb-8" id="password_input" label="Password" name="password"/>
-			
-			<Button type="submit" class="rounded-xl text-white cursor-pointer mb-4">Sign In</Button>
+		{_state.step}
+		{#if _state.step == 'credential'}
+			<CredentialForm />
+		{:else if _state.step == 'type'}
+			<AccountTypeForm />
+		{:else if _state.step == 'code'}
+			<CodeForm />
 
-			<Flex row center class="gap-2">
-				<Text lg class="opacity-80">Already have an account?</Text>
-				<a href="/login" class="text-primary underline font-bold">Sign In</a>
-			</Flex>
-			<Flex row center class="gap-2">
-				<Text lg class="opacity-80">Forgot Password?</Text>
-				<a href="/forget " class="text-primary underline font-bold">Click here</a>
-			</Flex>
-		</form>
+		{:else if _state.step == "success"}
+			<Success/>
+		{/if}
 	</Frame>
 </Flex>
