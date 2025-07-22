@@ -103,6 +103,7 @@ class Websocket:
                 if e.kill:
                     await websocket.close(100)
                 else:
+                    console.print_exception()
                     await websocket.send_json(e.json)
             
             except Exception as e:
@@ -110,7 +111,8 @@ class Websocket:
                 error = WebsocketException(
                     message=f"Unregistered Error {e.__class__.__name__}: {e}"
                 )
-                await websocket.send_json(error.json)
+                console.print_exception()
+                await websocket.send_json(error.json)                
             
             
 
