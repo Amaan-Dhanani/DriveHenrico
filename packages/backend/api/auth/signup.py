@@ -9,6 +9,7 @@ from utils.helper.websocket import Websocket
 from utils.abc import User, Credential, Verification, Session
 from utils.exception.websocket import EmailExistsError, NotExistsError
 from utils.mongo.Client import MongoClient
+from utils.email import CodeEmail
 from utils.app.Quart import app as _app
 
 
@@ -37,6 +38,8 @@ async def auth_signup_post(*_, **__):
     Credential.from_user(user, data.password).insert()
 
     verification = Verification.from_user(user).insert()
+    
+    await CodeEmail(to=user.email, code=verification.code).send()
 
     console.info(f"Sending email to {user.email}, code sent: {verification.code}")
 
