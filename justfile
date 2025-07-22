@@ -1,8 +1,8 @@
 
 # Starts the docker process
 [working-directory: './']
-start:
-    bash scripts/before.sh && docker compose up --build -d
+start SERVICE="" *FLAGS:
+    bash scripts/before.sh && docker compose up --build -d {{SERVICE}} {{FLAGS}}
 
 # Stops specified docker processes
 [working-directory: './']
