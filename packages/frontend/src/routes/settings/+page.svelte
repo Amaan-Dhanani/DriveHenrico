@@ -3,6 +3,7 @@
 	import { Header, Text } from '@ui';
 	import { Button, Flex, Frame } from 'sk-clib';
 	import { onMount } from 'svelte';
+	import { LightDark } from '@components';
 
 	async function onsubmit(event: Event) {
 		event.preventDefault(); // Stop default behavior
@@ -10,10 +11,6 @@
 		const formData = Object.fromEntries(new FormData(event.target as HTMLFormElement));
 
 		console.log('Submitting', formData);
-	}
-
-	function callback() {
-		alert("Hi there :)")
 	}
 
 	onMount(() => {
@@ -45,29 +42,7 @@
 
 
 		<div class="flex flex-row items-end bg-white dark:bg-[#2F2F42]">
-
-			<Dropdown.Menu>
-
-				<Dropdown.Trigger>
-					<Dropdown.Button class="w-fit text-bold">Theme</Dropdown.Button>
-				</Dropdown.Trigger>
-				
-				<Dropdown.Content>
-
-					<!-- Auto infers hrefs -->
-					<Dropdown.Button href="/account">Button Text</Dropdown.Button>
-
-					<!-- onclick functionality -->
-					<Dropdown.Button onclick={callback}>Click me :)</Dropdown.Button>
-					
-					<!-- Or the builtin divider-->
-					<Dropdown.Divider/>
-					
-					<!-- This is a useless button ;( -->
-					<Dropdown.Button>Hiya :)</Dropdown.Button> 
-				</Dropdown.Content>
-
-			</Dropdown.Menu>
+			<LightDark/>
 		</div>
 	</Frame>
 </Flex>

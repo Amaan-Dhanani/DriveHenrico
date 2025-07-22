@@ -261,3 +261,5 @@
 		outline: none;
 	}
 }
+
+@custom-variant dark (&:where(.dark, .dark *));
