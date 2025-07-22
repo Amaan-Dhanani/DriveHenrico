@@ -46,10 +46,10 @@
 
 		<div class="flex flex-row items-end bg-white dark:bg-[#2F2F42]">
 
-			<Dropdown.Menu class="pt-2" classDivider="border-gray-100 dark:border-gray-200" classButton="hover:bg-gray-100 cursor-pointer block px-4 py-2 text-sm text-gray-700 w-full text-left" classContent="mt-2 w-56 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden">
+			<Dropdown.Menu>
 
 				<Dropdown.Trigger>
-					<Dropdown.Button class="w-fit text-bold">Click me to open</Dropdown.Button>
+					<Dropdown.Button class="w-fit text-bold">Theme</Dropdown.Button>
 				</Dropdown.Trigger>
 				
 				<Dropdown.Content>

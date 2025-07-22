@@ -3,7 +3,7 @@
     import Light from '~icons/ic/round-light-mode';
     import { Flex } from 'sk-clib';
     import { Text } from '@lib/ui';
-    export let type = 'link';
+    export let type = '';
 
 </script>
 
