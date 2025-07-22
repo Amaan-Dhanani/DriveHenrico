@@ -8,7 +8,7 @@
     let {
         children,
         class: className,
-        contentClass = $bindable('flex flex-col gap-2 border-box pt-4'),
+        contentClass = $bindable('flex flex-col border-box py-1'),
         ...rest
     }: ContentProps = $props();
 

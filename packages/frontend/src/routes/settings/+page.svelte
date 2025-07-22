@@ -44,21 +44,18 @@
 			TO BE DISPLAYED WHENEVER
 
 
-		<div class="flex flex-row items-end gap-4 bg-white p-6 pb-0 dark:bg-[#2F2F42]">
+		<div class="flex flex-row items-end bg-white dark:bg-[#2F2F42]">
 
-			<Dropdown.Menu classButton="bg-red">
+			<Dropdown.Menu class="pt-2" classDivider="border-gray-100 dark:border-gray-200" classButton="hover:bg-gray-100 cursor-pointer block px-4 py-2 text-sm text-gray-700 w-full text-left" classContent="mt-2 w-56 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden">
 
 				<Dropdown.Trigger>
-					<Dropdown.Button>Click me to open</Dropdown.Button>
+					<Dropdown.Button class="w-fit text-bold">Click me to open</Dropdown.Button>
 				</Dropdown.Trigger>
 				
 				<Dropdown.Content>
 
 					<!-- Auto infers hrefs -->
 					<Dropdown.Button href="/account">Button Text</Dropdown.Button>
-					
-					<!-- Divider either with hr -->
-					<hr/>
 
 					<!-- onclick functionality -->
 					<Dropdown.Button onclick={callback}>Click me :)</Dropdown.Button>
