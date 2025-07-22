@@ -56,7 +56,7 @@ services:
     image: mongo
     container_name: database
     ports:
-      - "27017:27017"
+      - "29345:29345"
     volumes:
       - "mongodb_data:/data/db"
       - ./packages/database/mongo.conf:/etc/mongo/mongo.conf:rw

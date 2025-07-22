@@ -38,18 +38,6 @@ services:
     volumes:
       - ./packages/database/dev.mongo.conf:/etc/mongo/mongo.conf:rw # Insecure DEV ONLY
 
-  express:
-    container_name: express
-    image: mongo-express
-    restart: always
-    ports:
-      - 8081:8081    
-    environment:
-      ME_CONFIG_MONGODB_URL: mongodb://database
-      ME_CONFIG_BASICAUTH: false
-    networks:
-      - docker-network
-
 networks:
   docker-network:
     driver: bridge
