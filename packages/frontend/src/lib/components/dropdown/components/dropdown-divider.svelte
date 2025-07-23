@@ -8,7 +8,7 @@
     let {
         children,
         class: className,
-        dividerClass = $bindable('w-full border-gray-100 dark:border-gray-200'),
+        dividerClass = $bindable('w-full h-[1px]'),
         ...rest
     }: DividerProps = $props();
 

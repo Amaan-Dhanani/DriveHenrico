@@ -11,9 +11,9 @@
 
         // Default Classes
         dropdownClass = $bindable(''),
-        buttonClass = $bindable('border-[#e0e0e2] border-[1px] px-4 py-2 bg-[#F0F0F2] dark:bg-[#3E3E55] dark:text-white text-sm font-medium'),
-        contentClass = $bindable('flex items-center justify-center'),
-        dividerClass = $bindable('border-gray-200 dark:border-gray-600 h-[1px]'),
+        buttonClass = $bindable('px-4 py-2 bg-[#F0F0F2] dark:bg-[#3E3E55] dark:text-white text-sm font-medium rounded-none'),
+        contentClass = $bindable('flex items-center justify-center overflow-hidden'),
+        dividerClass = $bindable('bg-black/10'),
 
         // User Defined Classes
         classButton = $bindable(''),
