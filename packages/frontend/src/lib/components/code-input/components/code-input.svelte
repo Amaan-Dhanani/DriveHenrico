@@ -47,7 +47,6 @@
 	let joined = $state(''); // I luv runes :)
 	$effect(() => {
 		joined = values.join('');
-		console.log('Changed', joined);
 	});
 
 	// ========= Events =========

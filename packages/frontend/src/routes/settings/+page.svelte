@@ -42,7 +42,7 @@
 
 
 		<div class="flex flex-row items-end bg-white dark:bg-[#2F2F42]">
-			<LightDark/>
+			<LightDark className="pl-6 py-2"/>
 		</div>
 	</Frame>
 </Flex>

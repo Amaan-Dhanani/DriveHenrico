@@ -21,8 +21,6 @@
 
     function toggle_menu() {
         // Toggle State
-        console.log("Should be toggling state")
-        console.log(_state.active)
         toggle();
     }
 
