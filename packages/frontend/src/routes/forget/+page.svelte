@@ -19,7 +19,7 @@
 	<Text lg class="opacity-80 ml-4 sm:ml-0">Reset your password now!</Text>
 
 	<!-- Form Section -->
-	<Frame flex col fill class="mt-2 box-border rounded-t-2xl p-6 dark:bg-[#2F2F42]">
+	<Frame flex col fill class="mt-2 box-border rounded-t-2xl p-6 bg-white dark:bg-[#2F2F42]">
 		<form class="box-border flex size-full flex-col" {onsubmit}>
 			<Input class="mb-4" type="email" id="email_input" name="email" label="Enter your email below." />
 			

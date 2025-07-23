@@ -9,7 +9,7 @@
     let {
         children,
         class: className,
-        buttonClass = $bindable('hover:bg-gray-100 cursor-pointer block px-4 py-2 text-sm text-gray-700 w-full text-left'),
+        buttonClass = $bindable('dark:hover:bg-gray-100 hover:bg-[#3E3E55] hover:text-white dark:hover:text-black cursor-pointer block px-4 py-2 text-sm text-gray-700 w-full text-left'),
         href = $bindable(undefined),
         onclick = $bindable(() => {}),
         ...rest

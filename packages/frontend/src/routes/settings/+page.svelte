@@ -24,7 +24,7 @@
 	<Header xxl bold>Get Started</Header>
 	<Text lg class="opacity-80">Enter your details below to start your journey!</Text>
 	<!-- Form Section -->
-	<Frame flex col fill class="mt-2 box-border rounded-t-2xl p-6 dark:bg-[#2F2F42]">
+	<Frame flex col fill class="mt-2 box-border rounded-t-2xl p-6 bg-white dark:bg-[#2F2F42]">
 			TO BE DISPLAYED, IF YOU ARE LOGGED IN
 		<form class="flex flex-row items-end gap-4 rounded-t-xl bg-white px-6 dark:bg-[#2F2F42]">
 			<div class="flex-1">
