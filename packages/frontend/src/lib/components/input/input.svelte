@@ -7,7 +7,7 @@
 		children,
 		class: className,
 		inputClass = $bindable(
-			'dark:bg-[#3E3E55] bg-[#F0F0F2] truncate dark:text-white dark:border-0 border border-[#e0e0e2] rounded-3 px-3 py-4 w-full text-[14px] rounded-[12px] px-4 py-3'
+			'dark:bg-[#3E3E55] bg-[#F0F0F2] truncate dark:text-white dark:outline-0 outline box-border outline-[#e0e0e2] rounded-3 px-3 py-4 w-full text-[14px] rounded-[12px] px-4 py-3'
 		),
 		labelClass = $bindable('text-[#858597] text-[14px]'),
 		classLabel = $bindable(''),
