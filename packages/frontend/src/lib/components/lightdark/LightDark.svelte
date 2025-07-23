@@ -5,7 +5,6 @@
 	import { Dropdown } from '@components';
 	import { global_mode$ } from './mode';
 	import { type Writable } from 'svelte/store';
-	import DropdownDivider from '../dropdown/components/dropdown-divider.svelte';
 
 	let mode$: Writable<'dark' | 'light' | string> = global_mode$.mode$;
 
@@ -16,7 +15,7 @@
 
 <Dropdown.Menu class="pt-2">
 	<Dropdown.Trigger>
-		<Dropdown.Button class="w-fit">Theme</Dropdown.Button>
+		<Dropdown.Button class="w-fit rounded-md">Theme</Dropdown.Button>
 	</Dropdown.Trigger>
 
 	<Dropdown.Content class="w-36">
@@ -27,7 +26,7 @@
 			</Flex>
 		</Dropdown.Button>
 
-		<DropdownDivider border=""/>
+		<Dropdown.Divider/>
 
 		<Dropdown.Button onclick={() => setMode('dark')}>
 			<Flex class="items-center pl-6 gap-1">
