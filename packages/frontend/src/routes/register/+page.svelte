@@ -4,11 +4,11 @@
 	import { Flex, Frame } from 'sk-clib';
 	import { onMount } from 'svelte';
 
-	import { setLoginCtx } from './ctx.svelte';
+	import { setRegisterCtx } from './ctx.svelte';
 	import { AccountTypeForm, CodeForm, CredentialForm, Success } from './_forms';
 	import { CapacitorCookies } from '@capacitor/core';
 
-	let { _state, _verification_state } = setLoginCtx();
+	let { _state, _verification_state } = setRegisterCtx();
 
 	$effect(() => {
 		console.log(_state.step);
@@ -53,8 +53,8 @@
 
 <Flex col fill class="mt-20">
 	<!-- Header -->
-	<Header xxl bold class="ml-4 sm:ml-0">Sign In</Header>
-	<Text lg class="ml-4 opacity-80 sm:ml-0">Welcome back to DriveHenrico!</Text>
+	<Header xxl bold class="ml-4 sm:ml-0">Get Started</Header>
+	<Text lg class="ml-4 opacity-80 sm:ml-0">Enter your details below to start your journey!</Text>
 
 	<!-- Form Section -->
 	<Frame flex col fill class="mt-2 box-border rounded-t-2xl p-6 dark:bg-[#2F2F42]">

@@ -19,7 +19,7 @@ class State {
 	public error = $state<string | undefined>(undefined);
 }
 
-export function createLogin() {
+export function createRegister() {
 	const _state = new State();
     const _user_input = new UserInput();
     const _verification_state = new VerificationState();
@@ -27,29 +27,29 @@ export function createLogin() {
 	return { _state, _user_input, _verification_state };
 }
 
-export function getLoginData() {
+export function getRegisterData() {
 	const NAME = 'login-ctx' as const;
 	return {
 		NAME
 	};
 }
 
-export function setLoginCtx() {
-	const { NAME } = getLoginData();
+export function setRegisterCtx() {
+	const { NAME } = getRegisterData();
 
-	const login = {
-		...createLogin()
+	const register = {
+		...createRegister()
 	};
 
-	setContext(NAME, login);
+	setContext(NAME, register);
 
 	return {
-		...login
+		...register
 	};
 }
 
-type LoginGetReturn = ReturnType<typeof setLoginCtx>;
-export function getLoginCtx() {
-	const { NAME } = getLoginData();
-	return getContext<LoginGetReturn>(NAME);
+type RegisterGetReturn = ReturnType<typeof setRegisterCtx>;
+export function getRegisterCtx() {
+	const { NAME } = getRegisterData();
+	return getContext<RegisterGetReturn>(NAME);
 }

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getLoginCtx } from '../ctx.svelte';
+	import { getRegisterCtx } from '../ctx.svelte';
 	import { CodeInput } from '@components';
 	import { Button } from 'sk-clib';
 
-	const { _state, _user_input, _verification_state } = getLoginCtx();
+	const { _state, _user_input, _verification_state } = getRegisterCtx();
 
 	onMount(() => {
 		const { email, password, account_type } = _user_input;

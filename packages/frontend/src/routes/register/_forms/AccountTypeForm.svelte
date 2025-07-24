@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { Button } from 'sk-clib';
-	import { getLoginCtx } from '../ctx.svelte';
+	import { getRegisterCtx } from '../ctx.svelte';
 
-	let { _state, _user_input } = getLoginCtx();
+	let { _state, _user_input } = getRegisterCtx();
 
 	type AccountTypeFormData = {
 		account_type?: string;

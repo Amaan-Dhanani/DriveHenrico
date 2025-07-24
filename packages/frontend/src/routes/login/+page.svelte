@@ -15,8 +15,8 @@
 
 <Flex col fill class="mt-20">
 	<!-- Header -->
-	<Header xxl bold class="ml-4 sm:ml-0">Get Started</Header>
-	<Text lg class="ml-4 opacity-80 sm:ml-0">Enter your details below to start your journey!</Text>
+	<Header xxl bold class="ml-4 sm:ml-0">Log in</Header>
+	<Text lg class="ml-4 opacity-80 sm:ml-0">Welcome back to DriveHenrico!</Text>
 
 	<!-- Form Section -->
 	<Frame flex col fill class="mt-2 box-border rounded-t-2xl bg-white p-6 dark:bg-[#2F2F42]">

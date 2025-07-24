@@ -2,4 +2,4 @@
     
 </script>
 
-<span>Yay you logged in :)</span>
+<span>Yay you signed up :)</span>

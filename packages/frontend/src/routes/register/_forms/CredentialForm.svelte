@@ -2,9 +2,9 @@
 	import { Text } from '@ui';
 	import { Input } from '@components';
 	import { Button, Flex } from 'sk-clib';
-	import { getLoginCtx } from '../ctx.svelte';
+	import { getRegisterCtx } from '../ctx.svelte';
 
-	let { _state, _user_input } = getLoginCtx();
+	let { _state, _user_input } = getRegisterCtx();
 
 	type CredentialFormData = {
 		email?: string;
