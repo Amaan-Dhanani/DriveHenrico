@@ -50,7 +50,7 @@
     The component is styled using contextual classes from the `Dropdown` component.
 
     @props
-    - `class`: Additional Tailwind utility classes passed in.
+    - `className`: Additional Tailwind utility classes passed in.
 
     @rendered
     Renders a dropdown that allows switching between light and dark themes.
