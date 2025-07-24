@@ -53,7 +53,7 @@
 
 <Flex col fill class="mt-20">
 	<!-- Header -->
-	<Header xxl bold class="ml-4 sm:ml-0">Get Started</Header>
+	<Header xxl bold class="ml-4 sm:ml-0">Sign Up</Header>
 	<Text lg class="ml-4 opacity-80 sm:ml-0">Enter your details below to start your journey!</Text>
 
 	<!-- Form Section -->

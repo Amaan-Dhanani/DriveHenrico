@@ -9,6 +9,7 @@ class VerificationState {
 class UserInput {
     public email = $state<string | undefined>();
     public password = $state<string | undefined>();
+	public name = $state<string | undefined>();
     public account_type = $state<string | undefined>();
     public code = $state<string | undefined>();
 }

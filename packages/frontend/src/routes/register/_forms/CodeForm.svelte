@@ -7,8 +7,8 @@
 	const { _state, _user_input, _verification_state } = getRegisterCtx();
 
 	onMount(() => {
-		const { email, password, account_type } = _user_input;
-		_state.ws?.send('auth:signup:post', { email, password, account_type });
+		const { email, password, account_type, name } = _user_input;
+		_state.ws?.send('auth:signup:post', { email, password, account_type, name });
 	});
 
 	type CodeFormData = {

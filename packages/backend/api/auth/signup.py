@@ -19,6 +19,7 @@ blueprint = app.Blueprint("api:@signup", __name__)
 @dataclass
 class D_AuthSignupPost:
     email: str
+    name: str
     password: str
     account_type: str
 
@@ -32,6 +33,7 @@ async def auth_signup_post(*_, **__):
 
     user = User.create(**{
         "email": data.email,
+        "name": data.name,
         "account_type": data.account_type
     }).insert()
 

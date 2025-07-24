@@ -15,7 +15,7 @@
 
 <Flex col fill class="mt-20">
 	<!-- Header -->
-	<Header xxl bold class="ml-4 sm:ml-0">Log in</Header>
+	<Header xxl bold class="ml-4 sm:ml-0">Sign In</Header>
 	<Text lg class="ml-4 opacity-80 sm:ml-0">Welcome back to DriveHenrico!</Text>
 
 	<!-- Form Section -->
@@ -31,7 +31,7 @@
 				name="password"
 			/>
 
-			<Button type="submit" class="mb-4 cursor-pointer rounded-xl text-white">Register</Button>
+			<Button type="submit" class="mb-4 cursor-pointer rounded-xl text-white">Sign In</Button>
 
 			<Flex row center class="gap-2">
 				<Text lg class="opacity-80">Don't have an account?</Text>
