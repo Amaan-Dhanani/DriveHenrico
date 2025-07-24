@@ -43,7 +43,8 @@
 <form class="box-border flex size-full flex-col" {onsubmit}>
 	<span>Haha this is the code form :)</span>
 
-	<CodeInput name="code" />
+	<CodeInput classWrapper="pb-[3px]" name="code"/>
 
 	<Button type="submit" class="mb-4 cursor-pointer rounded-xl text-white">Continue</Button>
 </form>
+

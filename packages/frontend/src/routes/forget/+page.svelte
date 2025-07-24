@@ -25,7 +25,7 @@
 			
 			<Button type="submit" class="rounded-xl text-white cursor-pointer mb-4">Send Code</Button>
 
-			<CodeInput name="code"/>
+			<CodeInput classWrapper="pb-[3px]" name="code" />
 			<p class="text-[#858597] text-[14px]">Verify the code below. DEV NOTE: THIS LOCKS MOBILE USERS TO THE NUMBERIC KEYBOARD!</p>
 			<Button type="submit" class="rounded-xl text-white cursor-pointer mb-4">Verify Code</Button>
 
