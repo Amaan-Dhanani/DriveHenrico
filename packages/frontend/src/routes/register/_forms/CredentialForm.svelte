@@ -22,9 +22,9 @@
 			throw new Error('Missing email or password');
 		}
 
-        // Update user input
-        _user_input.email = email
-        _user_input.password = password
+		// Update user input
+		_user_input.email = email;
+		_user_input.password = password;
 
 		// Prompt Step Change
 		_state.step = 'type';
@@ -41,8 +41,5 @@
 		<Text lg class="opacity-80">Already have an account?</Text>
 		<a href="/login" class="text-primary font-bold underline">Sign In</a>
 	</Flex>
-	<Flex row center class="gap-2">
-		<Text lg class="opacity-80">Forgot Password?</Text>
-		<a href="/forget " class="text-primary font-bold underline">Click here</a>
-	</Flex>
+
 </form>
