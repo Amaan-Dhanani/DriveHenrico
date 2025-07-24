@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Input } from '@components';
-	import { RadioHorizontal } from '@components';
 	import { Header, Text } from '@ui';
 	import { Button, Flex, Frame } from 'sk-clib';
 	let selected = '';
@@ -26,14 +25,6 @@
 			<Input class="mb-4" type="email" id="email_input" name="email" label="Email" />
 			<Input type="password" class="mb-[12px]" id="password_input" label="Password" name="password"/>
 			
-			<RadioHorizontal
-				label="Account Type"
-				name="access"
-				bind:selected
-				divClass="mb-8"
-				labelClass="mb-1"
-				options={[{ value: 'Student' }, { value: 'Parent' }, { value: 'Teacher' }]}
-			/>
 
 			<Button type="submit" class="rounded-xl text-white cursor-pointer mb-4">Register</Button>
 
