@@ -8,14 +8,18 @@
 		class: className,
 		classWrapper = $bindable(''), // User Defined
 		wrapperClass = $bindable(`
-            gap-2 px-[25%]
+            gap-2 px-[25%] flex justify-center
         `), // User Over-writable
 		classContainer = $bindable(''), // User Defined
 		containerClass = $bindable(`
-            flex-1
+            flex
         `), // User Over-writable
 		codeInputClass = $bindable(`
             w-full
+			min-w-[2rem]
+			max-w-[3rem]
+			max-w-[2rem]
+			aspect-4/5
             rounded
             border focus:border-gray-300 border-[var(--color-primary)] focus:outline-none
             text-center text-lg placeholder:opacity-40 dark:text-white
