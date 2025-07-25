@@ -8,7 +8,7 @@
     let {
         children,
         class: className,
-        textClass = $bindable('dark:text-white'),
+        textClass = $bindable('dark:text-white text-gray-500'),
         ...rest
     }: Props = $props();
 

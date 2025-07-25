@@ -10,6 +10,12 @@
 
 	let { _state, _verification_state } = setRegisterCtx();
 
+	const stepTextMap: Record<string, string> = {
+		credential: 'Enter your desired email and password to start your journey!',
+		type: 'Enter your name and your account type to continue with the registration process.',
+		code: 'Last Step! All we have to do is verify your information.',
+	};
+
 	$effect(() => {
 		console.log(_state.step);
 	});
@@ -54,10 +60,10 @@
 <Flex col fill class="mt-20">
 	<!-- Header -->
 	<Header xxl bold class="ml-4 sm:ml-0">Sign Up</Header>
-	<Text lg class="ml-4 opacity-80 sm:ml-0">Enter your details below to start your journey!</Text>
+	<Text lg class="ml-4 opacity-80 sm:ml-0">{stepTextMap[_state.step]}</Text>
 
 	<!-- Form Section -->
-	<Frame flex col fill class="mt-2 box-border rounded-t-2xl p-6 dark:bg-[#2F2F42]">
+	<Frame flex col fill class="mt-2 box-border rounded-t-2xl p-6 bg-white dark:bg-[#2F2F42]">
 		{_state.step}
 		{#if _state.step == 'credential'}
 			<CredentialForm />

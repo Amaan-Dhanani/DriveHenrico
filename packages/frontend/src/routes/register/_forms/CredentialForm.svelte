@@ -17,14 +17,17 @@
 		const formData: CredentialFormData = Object.fromEntries(
 			new FormData(event.target as HTMLFormElement)
 		);
-		const { email, password, name } = formData;
+		const { email, password } = formData;
 
-		if (!email || !password || !name) {
-			throw new Error('Missing email, password, or name');
+		if (!email ) {
+			throw new Error('Missing email');
+		}
+
+		if (!password ) {
+			throw new Error('Missing password');
 		}
 
 		// Update user input
-		_user_input.name = name;
 		_user_input.email = email;
 		_user_input.password = password;
 
@@ -34,7 +37,6 @@
 </script>
 
 <form class="box-border flex size-full flex-col" {onsubmit}>
-	<Input class="mb-4" type="text" id="name_input" name="name" label="Full Name" />
 	<Input class="mb-4" type="email" id="email_input" name="email" label="Email" />
 	<Input type="password" class="mb-8" id="password_input" label="Password" name="password" />
 
