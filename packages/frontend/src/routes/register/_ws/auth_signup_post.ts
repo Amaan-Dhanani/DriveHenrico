@@ -5,8 +5,12 @@ type PostResponseType = {
 	verification_id?: string;
 };
 
-export async function auth_signup_post(error: WebsocketError, data: PostResponseType) {
-	const { _verification_state } = getRegisterCtx();
+export async function auth_signup_post(
+	ctx: ReturnType<typeof getRegisterCtx>,
+	error: WebsocketError,
+	data: PostResponseType
+) {
+	const { _verification_state } = ctx;
 
 	if (error) {
 		console.error(error, data);

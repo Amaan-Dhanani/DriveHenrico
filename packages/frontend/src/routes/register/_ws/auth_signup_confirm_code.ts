@@ -1,12 +1,14 @@
 import type { WebsocketError } from '@lib/types';
 import { CapacitorCookies } from '@capacitor/core';
+import type { getRegisterCtx } from '../ctx.svelte';
 
 type ConfirmCodeResponseType = {
 	token?: string;
 };
 
 export async function auth_signup_confirm_code(
-	_: WebsocketError,
+	ctx: ReturnType<typeof getRegisterCtx>,
+	error: WebsocketError,
 	data: ConfirmCodeResponseType
 ) {
 

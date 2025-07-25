@@ -14,7 +14,9 @@
 
 	// === Context ===
 	import { setRegisterCtx } from './ctx.svelte';
-	let { _state } = setRegisterCtx();
+
+	let ctx = setRegisterCtx();
+	const _state = ctx._state
 
 	const stepTextMap: Record<string, string> = {
 		credential: 'Enter your desired email and password to start your journey!',
@@ -29,8 +31,13 @@
 	onMount(async () => {
 		_state.ws = new Websocket('/auth/signup');
 		await _state.ws.connect();
-		_state.ws.on('auth:signup:post', auth_signup_post)
-		_state.ws.on('auth:signup:confirm_code', auth_signup_confirm_code)
+		_state.ws.on('auth:signup:post', (error, data) => auth_signup_post(ctx, error, data))
+		_state.ws.on('auth:signup:confirm_code', (error, data) => auth_signup_confirm_code(ctx, error, data))
+
+
+		_state.ws.onerror = (error, data) => {
+			console.error("Oh no... its broken...", error, data)
+		}
 	});
 	
 </script>

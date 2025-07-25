@@ -16,7 +16,7 @@ export class Websocket {
     public base_url: string = `api.${window.location.hostname}`;
 
     // Optional global error handler
-    public onerror: (error: string) => void = () => {};
+    public onerror: (error: string, data?: any) => void = () => {};
 
     constructor(href: string) {
         this.href = href;
@@ -45,7 +45,7 @@ export class Websocket {
         }
 
         if (error && this.onerror) {
-            this.onerror(error);
+            this.onerror(error, data);
         }
     };
 
