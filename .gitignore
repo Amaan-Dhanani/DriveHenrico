@@ -6,3 +6,6 @@
 config.yml
 
 node_modules/
+
+# Certificate files for development
+certs/

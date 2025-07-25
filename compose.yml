@@ -53,6 +53,9 @@ services:
     networks:
       - docker-network
 
+    volumes:
+      - ./certs:/certs:ro
+
   database:
     image: mongo
     container_name: database
