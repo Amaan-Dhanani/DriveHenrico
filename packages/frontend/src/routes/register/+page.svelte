@@ -64,14 +64,12 @@
 
 	<!-- Form Section -->
 	<Frame flex col fill class="mt-2 box-border rounded-t-2xl p-6 bg-white dark:bg-[#2F2F42]">
-		{_state.step}
 		{#if _state.step == 'credential'}
 			<CredentialForm />
 		{:else if _state.step == 'type'}
 			<AccountTypeForm />
 		{:else if _state.step == 'code'}
 			<CodeForm />
-
 		{:else if _state.step == "success"}
 			<Success/>
 		{/if}
