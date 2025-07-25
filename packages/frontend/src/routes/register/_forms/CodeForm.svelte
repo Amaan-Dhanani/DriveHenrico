@@ -45,7 +45,7 @@
 <form class="box-border flex size-full flex-col gap-4" {onsubmit}>
 	<span class="text-center dark:text-white">Verify Code</span>
 
-	<Text class="text-center text-sm">We just emailed a code to <TextRedactor text={_user_input.email} className="text-primary"/>. Please check your inbox. If it isn't found, it could be in your spam.</Text>
+	<Text class="text-center text-sm">We just emailed a code to <TextRedactor text={_user_input.email} class="text-primary"/>. Please check your inbox. If it isn't found, it could be in your spam.</Text>
 	<CodeInput classWrapper="pb-[3px]" name="code"/>
 
 	<Button type="submit" class="mb-4 cursor-pointer rounded-xl text-white">Continue</Button>

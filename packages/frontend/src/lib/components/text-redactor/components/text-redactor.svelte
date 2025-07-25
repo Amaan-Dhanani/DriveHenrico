@@ -4,8 +4,7 @@
 	let {
 		text = $bindable(''),
 		number = $bindable(4),       
-		char = $bindable('*'),
-		className = $bindable(''),                   
+		char = $bindable('*'),                 
 		...rest                         
 	}: Props = $props();
 
@@ -34,7 +33,7 @@
 	});
 </script>
 
-<span class={className} {...rest}>
+<span {...rest}>
 	{redacted}
 </span>
 
