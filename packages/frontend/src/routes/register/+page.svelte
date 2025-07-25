@@ -1,14 +1,20 @@
 <script lang="ts">
+
+	// === Core ===
 	import { Websocket } from '@utils';
-	import { Header, Text } from '@ui';
-	import { Flex, Frame } from 'sk-clib';
 	import { onMount } from 'svelte';
 
-	import { setRegisterCtx } from './ctx.svelte';
+	// === Components ===
+	import { Header, Text } from '@ui';
+	import { Flex, Frame } from 'sk-clib';
 	import { AccountTypeForm, CodeForm, CredentialForm, Success } from './_forms';
-	import { CapacitorCookies } from '@capacitor/core';
 
-	let { _state, _verification_state } = setRegisterCtx();
+	// === Websocket ===
+	import {auth_signup_post, auth_signup_confirm_code} from "./_ws"
+
+	// === Context ===
+	import { setRegisterCtx } from './ctx.svelte';
+	let { _state } = setRegisterCtx();
 
 	const stepTextMap: Record<string, string> = {
 		credential: 'Enter your desired email and password to start your journey!',
@@ -23,38 +29,10 @@
 	onMount(async () => {
 		_state.ws = new Websocket('/auth/signup');
 		await _state.ws.connect();
-
-		type PostResponseType = {
-			verification_id?: string;
-		};
-
-		_state.ws.on('auth:signup:post', async (error, data: PostResponseType) => {
-			if (error) {
-				console.error(error, data)
-				return
-			}
-
-			const { verification_id } = data;
-			_verification_state.id = verification_id;
-		});
-
-		type ConfirmCodeResponseType = {
-			token?: string
-		}
-
-		_state.ws.on('auth:signup:confirm_code', async(error, data: ConfirmCodeResponseType) => {
-			const {token} = data;
-			if (!token) throw new Error("No token present");
-			
-			console.log("Yippie you have a new token!")
-
-			await CapacitorCookies.setCookie({
-				"key": "token",
-				"value": token
-			})
-			
-		})
+		_state.ws.on('auth:signup:post', auth_signup_post)
+		_state.ws.on('auth:signup:confirm_code', auth_signup_confirm_code)
 	});
+	
 </script>
 
 <Flex col fill class="mt-20">
