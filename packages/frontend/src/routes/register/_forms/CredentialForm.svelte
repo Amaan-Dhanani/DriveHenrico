@@ -1,42 +1,15 @@
 <script lang="ts">
+	// === Components ===
 	import { Text } from '@ui';
 	import { Input } from '@components';
 	import { Button, Flex } from 'sk-clib';
-	import { getRegisterCtx } from '../ctx.svelte';
 
-	let { _state, _user_input } = getRegisterCtx();
-
-	type CredentialFormData = {
-		email?: string;
-		password?: string;
-		name?: string;
-	};
-
-	async function onsubmit(event: Event) {
-		event.preventDefault(); // Stop default behavior
-		const formData: CredentialFormData = Object.fromEntries(
-			new FormData(event.target as HTMLFormElement)
-		);
-		const { email, password } = formData;
-
-		if (!email ) {
-			throw new Error('Missing email');
-		}
-
-		if (!password ) {
-			throw new Error('Missing password');
-		}
-
-		// Update user input
-		_user_input.email = email;
-		_user_input.password = password;
-
-		// Prompt Step Change
-		_state.step = 'type';
-	}
+	// === Context ===
+	import { getStepsCtx } from '@components/steps/ctx.svelte';
+	let { _helpers } = getStepsCtx();
 </script>
 
-<form class="box-border flex size-full flex-col" {onsubmit}>
+<form class="box-border flex size-full flex-col" onsubmit={_helpers.next}>
 	<Input class="mb-4" type="email" id="email_input" name="email" label="Email" />
 	<Input type="password" class="mb-8" id="password_input" label="Password" name="password" />
 
@@ -46,5 +19,4 @@
 		<Text lg class="opacity-80">Already have an account?</Text>
 		<a href="/login" class="text-primary font-bold underline">Sign In</a>
 	</Flex>
-
 </form>

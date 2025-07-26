@@ -21,4 +21,6 @@ export async function auth_signup_confirm_code(
 		key: 'token',
 		value: token
 	});
+
+	ctx._state.registered = true;
 }
