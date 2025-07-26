@@ -1,1 +1,1 @@
-export type WebsocketError = string
+export type WebsocketError = string | undefined
