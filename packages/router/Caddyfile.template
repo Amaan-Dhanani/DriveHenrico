@@ -7,11 +7,11 @@ database.{domain} {
 # Backend
 api.{domain} {
     reverse_proxy backend:4000
-    tls /certs/api.127.0.0.1.nip.io.pem /certs/api.127.0.0.1.nip.io-key.pem
+    tls /certs/api.{domain}.pem /certs/api.{domain}-key.pem
 }
 
 # Frontend
 {domain} {
     reverse_proxy frontend:3000
-tls /certs/127.0.0.1.nip.io.pem /certs/127.0.0.1.nip.io-key.pem
+    tls /certs/{domain}.pem /certs/{domain}-key.pem
 }
