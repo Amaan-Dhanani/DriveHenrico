@@ -9,7 +9,6 @@
 
 		const formData = Object.fromEntries(new FormData(event.target as HTMLFormElement));
 		
-		console.log("Submitting", formData)
 	}
 </script>
 

@@ -1,21 +1,14 @@
 <script lang="ts">
-	import { Input, Dropdown } from '@components';
+	import { Input } from '@components';
 	import { Header, Text } from '@ui';
 	import { Button, Flex, Frame } from 'sk-clib';
-	import { onMount } from 'svelte';
 	import { LightDark } from '@components';
 
 	async function onsubmit(event: Event) {
 		event.preventDefault(); // Stop default behavior
 
 		const formData = Object.fromEntries(new FormData(event.target as HTMLFormElement));
-
-		console.log('Submitting', formData);
 	}
-
-	onMount(() => {
-		console.log(Dropdown.Menu)
-	})
 
 </script>
 
