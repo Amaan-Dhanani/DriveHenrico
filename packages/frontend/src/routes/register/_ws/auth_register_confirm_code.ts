@@ -6,7 +6,7 @@ type ConfirmCodeResponseType = {
 	token?: string;
 };
 
-export async function auth_signup_confirm_code(
+export async function auth_register_confirm_code(
 	ctx: ReturnType<typeof getRegisterCtx>,
 	error: WebsocketError,
 	data: ConfirmCodeResponseType

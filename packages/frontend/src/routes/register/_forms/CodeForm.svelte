@@ -19,7 +19,7 @@
 			'account_type',
 			'code'
 		);
-		_state.ws?.send('auth:signup:post', { email, password, account_type, name });
+		_state.ws?.send('auth:register:post', { email, password, account_type, name });
 	});
 
 	async function onsubmit(event: Event) {
@@ -31,7 +31,7 @@
 		if (!code) throw new Error('Missing code');
 		if (!_verification_state.id) throw new Error('Missing Verification');
 
-		_state.ws?.send('auth:signup:confirm_code', {
+		_state.ws?.send('auth:register:confirm_code', {
 			id: _verification_state.id,
 			code
 		});

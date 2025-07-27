@@ -5,7 +5,7 @@ type PostResponseType = {
 	verification_id?: string;
 };
 
-export async function auth_signup_post(
+export async function auth_register_post(
 	ctx: ReturnType<typeof getRegisterCtx>,
 	error: WebsocketError,
 	data: PostResponseType

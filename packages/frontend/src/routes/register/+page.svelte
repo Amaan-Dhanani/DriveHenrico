@@ -9,7 +9,7 @@
 	import { AccountTypeForm, CodeForm, CredentialForm, Success } from './_forms';
 
 	// === Websocket ===
-	import { auth_signup_post, auth_signup_confirm_code } from './_ws';
+	import { auth_register_post, auth_register_confirm_code } from './_ws';
 
 	// === Context ===
 	import { setRegisterCtx } from './ctx.svelte';
@@ -35,12 +35,12 @@
 	});
 
 	onMount(async () => {
-		_state.ws = new Websocket('/auth/signup');
+		_state.ws = new Websocket('/auth/register');
 		await _state.ws.connect();
 
-		_state.ws.on('auth:signup:post', (error, data) => auth_signup_post(ctx, error, data));
-		_state.ws.on('auth:signup:confirm_code', (error, data) =>
-			auth_signup_confirm_code(ctx, error, data)
+		_state.ws.on('auth:register:post', (error, data) => auth_register_post(ctx, error, data));
+		_state.ws.on('auth:register:confirm_code', (error, data) =>
+			auth_register_confirm_code(ctx, error, data)
 		);
 
 		_state.ws.onerror = (error, data) => {
