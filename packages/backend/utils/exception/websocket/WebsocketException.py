@@ -128,8 +128,19 @@ class NotExistsError(WebsocketException):
         The specific value that was not found.
     """
 
-    def __init__(self, identifier: str, value: Any, *args, **kwargs):
-        data = {
-            "detail": f"{identifier}:{value} doesn't exist"
-        }
-        super().__init__(message="Doesn't exist", data=data, *args, **kwargs)
+    def __init__(self, identifier: str = None, value: Any = None, message: Optional[str] = None, *args, **kwargs):
+        
+        if identifier:
+            data = {
+                "detail": f"{identifier}:{value} doesn't exist"
+            }
+            
+        if not message:
+            message = f"{identifier.capitalize()} doesn't exist"
+            
+        super().__init__(message=message, data=data, *args, **kwargs)
+
+class UserNotExists(NotExistsError):
+    def __init__(self, *args, **kwargs):        
+        message = "User doesn't exist"
+        super().__init__(message, *args, **kwargs)
