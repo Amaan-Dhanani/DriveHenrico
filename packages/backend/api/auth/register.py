@@ -13,7 +13,7 @@ from utils.email import CodeEmail
 from utils.app.Quart import app as _app
 
 
-blueprint = app.Blueprint("api:@signup", __name__)
+blueprint = app.Blueprint("api(auth):@register", __name__)
 
 
 @dataclass
@@ -24,7 +24,7 @@ class D_AuthSignupPost:
     account_type: str
 
 
-async def auth_signup_post(*_, **__):
+async def auth_register_post(*_, **__):
 
     data: D_AuthSignupPost = websocket_message.cast_data(D_AuthSignupPost)
 
@@ -40,7 +40,7 @@ async def auth_signup_post(*_, **__):
     Credential.from_user(user, data.password).insert()
 
     verification = Verification.from_user(user).insert()
-    
+
     await CodeEmail(to=user.email, code=verification.code).send()
 
     console.info(f"Sending email to {user.email}, code sent: {verification.code}")
@@ -54,7 +54,7 @@ class D_AuthSignupConfirmCode:
     code: str
 
 
-async def auth_signup_confirm_code(*_, **__):
+async def auth_register_confirm_code(*_, **__):
     data: D_AuthSignupConfirmCode = websocket_message.cast_data(D_AuthSignupConfirmCode)
 
     if not Verification.exists(id=data.id):
@@ -76,11 +76,11 @@ async def auth_signup_confirm_code(*_, **__):
 _ws = Websocket()
 
 
-@blueprint.websocket("/auth/signup")
+@blueprint.websocket("/auth/register")
 @_ws.init
-@_ws.on("operation", value="auth:signup:post", callback=auth_signup_post)
-@_ws.on("operation", value="auth:signup:confirm_code", callback=auth_signup_confirm_code)
-async def signup_WS(*args, **kwargs):
+@_ws.on("operation", value="auth:register:post", callback=auth_register_post)
+@_ws.on("operation", value="auth:register:confirm_code", callback=auth_register_confirm_code)
+async def register_WS(*args, **kwargs):
     console.info("This shouldn't be called I don't think")
 
 
@@ -90,6 +90,6 @@ async def unverified_cleanup():
         "verified": False,
         "ttl": {"$lt": int(datetime.now(timezone.utc).timestamp())}
     })
-    
+
     if result.deleted_count > 0:
         console.info(f"Unverified Cleanup Deleted {result.deleted_count} Accounts")
