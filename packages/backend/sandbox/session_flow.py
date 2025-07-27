@@ -27,6 +27,7 @@ HTTPS_ROUTE = f"https://{API_DOMAIN}"
 
 client = httpx.AsyncClient(verify=False)
 
+
 async def health():
     route_health = f"{HTTPS_ROUTE}/health"
     console.log(f"Health Check {route_health}")
@@ -42,8 +43,10 @@ async def health():
         await asyncio.sleep(1)
     raise RuntimeError("Backend didn't run in time")
 
+
 def to_json(data: dict) -> str:
     return json.dumps(data)
+
 
 def from_json(data: str) -> dict:
     return json.loads(data)
@@ -54,9 +57,9 @@ async def main():
 
     route_session = f"{WSS_ROUTE}/auth/session"
     console.debug(f"Connecting to {route_session}")
-    
+
     async with websockets.connect(route_session) as ws:
-        
+
         _payload_initiate = to_json({
             "operation": "session:initiate",
             "data": {
@@ -65,14 +68,36 @@ async def main():
                 "password": "1234"
             }
         })
-        
+
         await ws.send(_payload_initiate)
-       
+
         response = from_json(await ws.recv())
 
-        console.debug(response)
-    
+        if response["operation"] == "session:challenge":
+            challenge_id: str = response["data"]["challenge_id"]
+
+            _passed: bool = False
+
+            while not _passed:
+                code = input("Code: ")
+
+                _payload_verify = to_json({
+                    "operation": "session:verify",
+                    "data": {
+                        "challenge_id": challenge_id,
+                        "value": code
+                    }
+                })
+
+                await ws.send(_payload_verify)
+
+                verify_response = from_json(await ws.recv())
+
+                console.log(verify_response)
+
+                if verify_response["operation"] == "session:established":
+                    _passed = True
+
 
 if __name__ == "__main__":
     asyncio.run(main())
-
