@@ -35,7 +35,7 @@ class User(WrapperModel):
 
         if not instance.verified and instance.ttl is None:
             # Generate TTL
-            time_delta = int((datetime.now(timezone.utc) + timedelta(seconds=1)).timestamp())
+            time_delta = int((datetime.now(timezone.utc) + timedelta(minutes=10)).timestamp())
             instance.ttl = time_delta
 
         return instance
