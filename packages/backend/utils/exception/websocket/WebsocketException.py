@@ -130,10 +130,9 @@ class NotExistsError(WebsocketException):
 
     def __init__(self, identifier: str = None, value: Any = None, message: Optional[str] = None, *args, **kwargs):
         
-        if identifier:
-            data = {
-                "detail": f"{identifier}:{value} doesn't exist"
-            }
+        data = {
+            "detail": f"{identifier}:{value} doesn't exist"
+        }
             
         if not message:
             message = f"{identifier.capitalize()} doesn't exist"
