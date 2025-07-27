@@ -19,3 +19,4 @@ class MongoClient:
     users: pymongo.collection.Collection = database["users"]
     credentials: pymongo.collection.Collection = database["credentials"]
     verification: pymongo.collection.Collection = database["verification"]
+    challenge: pymongo.collection.Collection = database["challenge"]
