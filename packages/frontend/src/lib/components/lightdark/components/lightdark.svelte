@@ -1,37 +1,48 @@
 <script lang="ts">
-	import Dark from '~icons/ic/round-dark-mode';
-	import Light from '~icons/ic/round-light-mode';
+
+	// === Core ===
+	import { cn } from '@utils';
+
+	// === Components ===
 	import { Flex } from 'sk-clib';
 	import { Dropdown } from '@components';
-	import { global_mode$ } from './mode';
-	import { type Writable } from 'svelte/store';
-	export let className: string = '';
 
-	let mode$: Writable<'dark' | 'light' | string> = global_mode$.mode$;
+	// === Icons ===
+	import IconDark from '~icons/ic/round-dark-mode';
+	import IconLight from '~icons/ic/round-light-mode';
 
-	const setMode = (mode: 'dark' | 'light') => {
-		if (localStorage.getItem("mode") !== mode) global_mode$.toggle();
-	};
+	// === State ===
+	import { global_theme$ } from '@state';
+	import type { Props } from '..';
+
+	let {
+		class: className,
+		lightdarkClass = $bindable('')
+	}: Props = $props();
+
+	
+	// Setup LightDark's Class
+	let lightdarkCls = $derived(cn(lightdarkClass, className))
 </script>
 
-<Dropdown.Menu class={className}>
+<Dropdown.Menu class={lightdarkCls}>
 	<Dropdown.Trigger>
 		<Dropdown.Button class="w-fit rounded-md">Theme</Dropdown.Button>
 	</Dropdown.Trigger>
 
 	<Dropdown.Content class="w-36">
-		<Dropdown.Button onclick={() => setMode('light')}>
+		<Dropdown.Button onclick={() => global_theme$.set("light")}>
 			<Flex class="items-center pl-6 gap-1">
-				<Light />
+				<IconLight />
                 Light
 			</Flex>
 		</Dropdown.Button>
 
 		<Dropdown.Divider/>
 
-		<Dropdown.Button onclick={() => setMode('dark')}>
+		<Dropdown.Button onclick={() => global_theme$.set("dark")}>
 			<Flex class="items-center pl-6 gap-1">
-				<Dark/>
+				<IconDark/>
                 Dark
 			</Flex>
 		</Dropdown.Button>

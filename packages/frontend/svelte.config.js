@@ -16,7 +16,8 @@ const config = {
 			"@lib": "src/lib",
 			"@ui": "src/lib/ui",
 			"@components": "src/lib/components",
-			"@utils": "src/lib/utils"
+			"@utils": "src/lib/utils",
+			"@state": "src/lib/state"
 		}
 	}
 };
