@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button } from 'sk-clib';
-	import { Input } from '@lib/components';
+	import { Input } from '@components';
 	import { getStepsCtx } from '@components/steps/ctx.svelte';
 
 	let { _helpers } = getStepsCtx();

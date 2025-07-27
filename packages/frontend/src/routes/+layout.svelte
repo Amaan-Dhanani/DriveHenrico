@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.css';
     import { onMount } from 'svelte';
-    import { global_mode$ } from '@lib/components/lightdark/mode';
+    import { global_mode$ } from '@components/lightdark/mode';
 
 	import { Flex, Frame } from 'sk-clib';
 

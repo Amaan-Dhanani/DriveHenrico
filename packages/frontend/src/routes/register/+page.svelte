@@ -13,8 +13,8 @@
 
 	// === Context ===
 	import { setRegisterCtx } from './ctx.svelte';
-	import { Steps } from '@lib/components';
-	import type { StepsHelpers } from '@lib/components/steps/ctx.svelte';
+	import { Steps } from '@components';
+	import type { StepsHelpers } from '@components/steps/ctx.svelte';
 
 	let ctx = setRegisterCtx();
 	const _state = ctx._state;
