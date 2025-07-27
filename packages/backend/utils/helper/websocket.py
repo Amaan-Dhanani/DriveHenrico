@@ -92,7 +92,22 @@ class Websocket:
             ))       
 
             try:
-                callback_response: dict = await listener.callback()
+                callback_response = await listener.callback()
+                
+                # If callback_response is a tuple, overwrite operation and data
+                if isinstance(callback_response, tuple) and len(callback_response) == 2:
+                    operation, data = callback_response
+                    response = {
+                        "operation": operation,
+                        "data": data
+                    }
+                else:
+                    response = {
+                        "operation": listener.value,
+                        "data": callback_response
+                    }
+                    
+                await websocket.send_json(response)
                 response = {
                     "operation": listener.value,
                     "data": callback_response
