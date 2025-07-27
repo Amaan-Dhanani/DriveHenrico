@@ -108,11 +108,6 @@ class Websocket:
                     }
                     
                 await websocket.send_json(response)
-                response = {
-                    "operation": listener.value,
-                    "data": callback_response
-                }
-                await websocket.send_json(response)
             
             except WebsocketException as e:
                 if e.kill:
