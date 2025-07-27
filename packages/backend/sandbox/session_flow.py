@@ -58,7 +58,12 @@ async def main():
     async with websockets.connect(route_session) as ws:
         
         _payload_initiate = to_json({
-            "operation": "session:initiate"
+            "operation": "session:initiate",
+            "data": {
+                "method": "password",
+                "email": "treltasev@gmail.com",
+                "password": "1234"
+            }
         })
         
         await ws.send(_payload_initiate)
