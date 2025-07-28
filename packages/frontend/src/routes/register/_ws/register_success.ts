@@ -5,18 +5,19 @@ type PostResponseType = {
 	verification_id?: string;
 };
 
-export async function auth_register_post(
+export async function register_success(
 	ctx: ReturnType<typeof getRegisterCtx>,
 	error: WebsocketError,
 	data: PostResponseType
 ) {
-	const { _verification_state } = ctx;
-
 	if (error) {
 		console.error(error, data);
 		return;
-	}
+	}	
 
-	const { verification_id } = data;
-	_verification_state.id = verification_id;
+	const {method, email, password} = ctx._session_initiate_state
+
+	// Start Session Connection
+	await ctx._state.session_ws?.connect();
+	ctx._state.session_ws?.send('session:initiate', { method, email, password });
 }
