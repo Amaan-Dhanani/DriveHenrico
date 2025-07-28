@@ -1,2 +1,2 @@
-export * from "./auth_register_confirm_code"
-export * from "./auth_register_post"
+export * from "./register_success"
+export * from "./session_challenge"

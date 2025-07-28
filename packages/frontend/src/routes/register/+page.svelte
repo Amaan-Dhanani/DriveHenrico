@@ -7,13 +7,13 @@
 	import { Header, Text } from '@ui';
 	import { Flex, Frame } from 'sk-clib';
 	import { AccountTypeForm, CodeForm, CredentialForm, Success } from './_forms';
+	import { Steps } from '@components';
 
 	// === Websocket ===
-	import { auth_register_post, auth_register_confirm_code } from './_ws';
+	import { register_success, session_challenge } from './_ws';
 
 	// === Context ===
 	import { setRegisterCtx } from './ctx.svelte';
-	import { Steps } from '@components';
 	import type { StepsHelpers } from '@components/steps/ctx.svelte';
 
 	let ctx = setRegisterCtx();
@@ -35,15 +35,19 @@
 	});
 
 	onMount(async () => {
-		_state.ws = new Websocket('/auth/register');
-		await _state.ws.connect();
+		_state.register_ws = new Websocket('/auth/register');
+		_state.session_ws = new Websocket('/auth/session');
+		
+		await _state.register_ws.connect();
 
-		_state.ws.on('auth:register:post', (error, data) => auth_register_post(ctx, error, data));
-		_state.ws.on('auth:register:confirm_code', (error, data) =>
-			auth_register_confirm_code(ctx, error, data)
-		);
+		_state.register_ws.on('register:success', (error, data) => register_success(ctx, error, data));
+		_state.session_ws.on('session:challenge', (error, data) => session_challenge(ctx, error, data));
+		_state.session_ws.on('session:established', (error, data) => {
+			if (!step_helper) return;
+			step_helper.ctx.step = step_helper.get_step_idx('done');
+		})
 
-		_state.ws.onerror = (error, data) => {
+		_state.register_ws.onerror = (error, data) => {
 			console.error('Oh no... its broken...', error, data);
 		};
 	});
