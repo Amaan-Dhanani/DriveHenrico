@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getContext, setContext } from 'svelte';
 import type { Step } from './types';
 import { Websocket } from '@utils';
@@ -6,8 +7,22 @@ class VerificationState {
 	public id = $state<string | undefined>();
 }
 
+class SessionInitiateState {
+	public method = $state<string | undefined>();
+	public email = $state<string | undefined>();
+	public password = $state<string | undefined>();
+
+	public setAll(obj: any) {
+		const { method, email, password } = obj;
+		this.method = method;
+		this.email = email;
+		this.password = password;
+	}
+}
+
 class State {
-	public ws = $state<Websocket | undefined>();
+	public register_ws = $state<Websocket | undefined>();
+	public session_ws = $state<Websocket | undefined>();
 	public step = $state<Step>('credential');
 	public error = $state<string | undefined>(undefined);
 	public registered = $state<boolean>(false);
@@ -16,8 +31,9 @@ class State {
 export function createRegister() {
 	const _state = new State();
 	const _verification_state = new VerificationState();
+	const _session_initiate_state = new SessionInitiateState();
 
-	return { _state, _verification_state };
+	return { _state, _verification_state, _session_initiate_state };
 }
 
 export function getRegisterData() {
