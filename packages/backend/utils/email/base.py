@@ -3,6 +3,8 @@ from utils.helper.config import Yaml
 from email.message import EmailMessage
 import aiosmtplib
 
+from utils.console import console
+
 _yml_conf = Yaml()
 _email_conf = _yml_conf.get("backend.email")
 
@@ -31,5 +33,8 @@ class BaseEmail:
 
         :raises KeyError: If `content` property is missing
         """
-        self._email.set_content(getattr(self, "content", "No Content"))
+        content = getattr(self, "content", "No Content")        
+        console.debug(f"Sending email to {self._email}: {content}")
+        
+        self._email.set_content(content)
         await aiosmtplib.send(self._email, **_email_conf)

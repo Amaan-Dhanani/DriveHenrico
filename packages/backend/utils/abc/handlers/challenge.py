@@ -165,6 +165,7 @@ class Challenge(WrapperModel):
         """
 
         if self.method == "email":
+            console.debug(f"Code sent to {self.user.email} is {self.value}")
             await CodeEmail(to=self.user.email, code=self.value).send()
 
     @property
