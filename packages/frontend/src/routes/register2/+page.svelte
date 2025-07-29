@@ -35,6 +35,7 @@
 
 	onMount(async () => {
 		_state.session_ws = new Websocket('/auth/session');
+		await _state.session_ws.connect()
 		
 
 		_state.session_ws.on('session:challenge', (error, data) => session_challenge(ctx, error, data));
