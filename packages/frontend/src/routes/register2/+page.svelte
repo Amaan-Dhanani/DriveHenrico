@@ -7,13 +7,13 @@
 	import { Header, Text } from '@ui';
 	import { Flex, Frame } from 'sk-clib';
 	import { CodeForm, CredentialForm, Success } from './_forms';
+	import { Steps } from '@components';
 
 	// === Websocket ===
-	import { auth_login_post, auth_login_confirm_code } from './_ws';
+	import { login_success, session_challenge } from './_ws';
 
 	// === Context ===
 	import { setLoginCtx } from './ctx.svelte';
-	import { Steps } from '@components';
 	import type { StepsHelpers } from '@components/steps/ctx.svelte';
 
 	let ctx = setLoginCtx();
@@ -22,8 +22,8 @@
 	let step_helper: StepsHelpers | undefined = $state(undefined);
 
 	const stepTextMap: Record<string, string> = {
-		credential: 'Let\'s hit the road! All you gotta to is log in to DriveHenrico!',
-		code: 'Well, that\'s not all. We also have to verify your information.'
+		credential: 'Enter your desired email and password to start your journey!',
+		code: 'Last Step! All we have to do is verify your information.'
 	};
 
 	$effect(() => {
@@ -34,17 +34,15 @@
 	});
 
 	onMount(async () => {
-		_state.ws = new Websocket('/auth/login');
-		await _state.ws.connect();
+		_state.session_ws = new Websocket('/auth/session');
+		
 
-		_state.ws.on('auth:login:post', (error, data) => auth_login_post(ctx, error, data));
-		_state.ws.on('auth:login:confirm_code', (error, data) =>
-			auth_login_confirm_code(ctx, error, data)
-		);
+		_state.session_ws.on('session:challenge', (error, data) => session_challenge(ctx, error, data));
+		_state.session_ws.on('session:established', (error, data) => {
+			if (!step_helper) return;
+			step_helper.ctx.step = step_helper.get_step_idx('done');
+		})
 
-		_state.ws.onerror = (error, data) => {
-			console.error('Oh no... its broken...', error, data);
-		};
 	});
 
 	const steps = [

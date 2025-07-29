@@ -11,14 +11,16 @@
 	import { getLoginCtx } from '../ctx.svelte';
 	import { getStepsCtx } from '@components/steps/ctx.svelte';
 	let { _helpers } = getStepsCtx();
-	const { _state, _verification_state } = getLoginCtx();
+	const { _state, _verification_state, _session_initiate_state } = getLoginCtx();
 
 	onMount(() => {
 		const { email, password } = _helpers.mergeSteps(
 			'credential',
+			'account_type',
 			'code'
 		);
-		_state.ws?.send('auth:login:post', { email, password });
+
+		_session_initiate_state.setAll({ method: 'email', email, password });
 	});
 
 	async function onsubmit(event: Event) {
@@ -30,9 +32,9 @@
 		if (!code) throw new Error('Missing code');
 		if (!_verification_state.id) throw new Error('Missing Verification');
 
-		_state.ws?.send('auth:login:confirm_code', {
-			id: _verification_state.id,
-			code
+		_state.session_ws?.send('session:verify', {
+			challenge_id: _verification_state.id,
+			value: code
 		});
 	}
 </script>
