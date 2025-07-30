@@ -31,7 +31,7 @@
 		if (!_challenge_state.id) throw new Error('Missing Challenge');
 
 		_state.session_ws?.send('session:verify', {
-			challenge_id: _verification_state.id,
+			challenge_id: _challenge_state.id,
 			value: code
 		});
 	}
