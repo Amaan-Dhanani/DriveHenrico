@@ -7,19 +7,6 @@ class ChallengeState {
 	public id = $state<string | undefined>();
 }
 
-class SessionInitiateState {
-	public method = $state<string | undefined>();
-	public email = $state<string | undefined>();
-	public password = $state<string | undefined>();
-
-	public setAll(obj: any) {
-		const { method, email, password } = obj;
-		this.method = method;
-		this.email = email;
-		this.password = password;
-	}
-}
-
 class State {
 	public session_ws = $state<Websocket | undefined>();
 	public step = $state<Step>('credential');
