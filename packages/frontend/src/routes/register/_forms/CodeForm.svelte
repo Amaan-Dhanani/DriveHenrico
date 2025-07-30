@@ -11,7 +11,7 @@
 	import { getRegisterCtx } from '../ctx.svelte';
 	import { getStepsCtx } from '@components/steps/ctx.svelte';
 	let { _helpers } = getStepsCtx();
-	const { _state, _verification_state, _session_initiate_state } = getRegisterCtx();
+	const { _state, _challenge_state, _session_initiate_state } = getRegisterCtx();
 
 	onMount(() => {
 		const { email, password, account_type, name } = _helpers.mergeSteps(
@@ -32,10 +32,10 @@
 		const { code } = _helpers.mergeSteps('code');
 
 		if (!code) throw new Error('Missing code');
-		if (!_verification_state.id) throw new Error('Missing Verification');
+		if (!_challenge_state.id) throw new Error('Missing Challenge');
 
 		_state.session_ws?.send('session:verify', {
-			challenge_id: _verification_state.id,
+			challenge_id: _challenge_state.id,
 			value: code
 		});
 	}

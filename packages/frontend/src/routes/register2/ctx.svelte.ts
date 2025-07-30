@@ -3,7 +3,7 @@ import { getContext, setContext } from 'svelte';
 import type { Step } from './types';
 import { Websocket } from '@utils';
 
-class VerificationState {
+class ChallengeState {
 	public id = $state<string | undefined>();
 }
 
@@ -29,10 +29,16 @@ class State {
 
 export function createLogin() {
 	const _state = new State();
+<<<<<<< Updated upstream:packages/frontend/src/routes/register2/ctx.svelte.ts
 	const _verification_state = new VerificationState();
 	const _session_initiate_state = new SessionInitiateState();
 
 	return { _state, _verification_state, _session_initiate_state };
+=======
+	const _challenge_state = new ChallengeState();
+
+	return { _state, _challenge_state };
+>>>>>>> Stashed changes:packages/frontend/src/routes/login/ctx.svelte.ts
 }
 
 export function getLoginData() {
