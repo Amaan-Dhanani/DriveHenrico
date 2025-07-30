@@ -15,6 +15,6 @@ export async function session_challenge(
         return;
     }	
 
-    ctx._verification_state.id = data.challenge_id
+    ctx._challenge_state.id = data.challenge_id
     console.info("Saved verification id", data.challenge_id)
 }
