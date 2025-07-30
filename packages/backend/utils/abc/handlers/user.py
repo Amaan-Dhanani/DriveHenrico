@@ -9,7 +9,7 @@ from pymongo.collection import Collection
 from utils.mongo.Client import MongoClient
 
 # === Types ===
-from typing import ClassVar, Union
+from typing import ClassVar, List, Optional, Union
 
 
 class User(WrapperModel):
@@ -18,6 +18,17 @@ class User(WrapperModel):
     verified: bool = False
     account_type: str = ""
     ttl: Union[int, None] = None
+    
+    # Optional Student
+    parent_id: Optional[str] = None
+    class_id: Optional[str] = None
+    
+    # Optional Parent
+    student_ids: Optional[List[str]] = None
+    
+    # Optional Teacher
+    class_ids: Optional[List[str]] = None
+    
     __collection__: ClassVar[Collection] = MongoClient.users
 
     @classmethod
@@ -37,6 +48,12 @@ class User(WrapperModel):
             # Generate TTL
             time_delta = int((datetime.now(timezone.utc) + timedelta(minutes=10)).timestamp())
             instance.ttl = time_delta
+        
+        if cls.is_parent:
+            instance.student_ids = []
+        
+        if cls.is_teacher:
+            instance.class_ids = []
 
         return instance
 
@@ -64,3 +81,25 @@ class User(WrapperModel):
             return True
 
         return True
+    
+    @property
+    def is_teacher(self) -> bool:
+        """
+        Returns True if the user is of account type teacher
+        """
+        return self.account_type == "teacher"        
+    
+    @property
+    def is_student(self) -> bool:
+        """
+        Returns True if the user is of account type student
+        """
+        return self.account_type == "student"
+    
+    @property
+    def is_parent(self) -> bool:
+        """
+        Returns True if the user is of account type parent
+        """
+        return self.account_type == "parent"
+    
