@@ -3,10 +3,11 @@ import asyncio
 from quart import websocket
 
 # === Utilities ===
-from utils import _cv_websocket_message
+from utils import _cv_websocket_message, websocket_message
+from utils import _cv_websocket_auth, websocket_auth
 
 from utils.console import console
-from utils.ctx import WebsocketMessageContext
+from utils.ctx import WebsocketAuthContext, WebsocketMessageContext
 from utils.exception.websocket import WebsocketException
 
 # === Type Hinting ===
