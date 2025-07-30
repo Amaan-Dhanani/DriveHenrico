@@ -21,9 +21,6 @@
 		const { email, password } = _helpers.mergeSteps(
 			'credential',
 		);
-
-		_session_initiate_state.setAll({ method: 'email', email, password });
-
 		
 		_state.session_ws?.send("session:initiate", {method: "email", email, password})
 	});
