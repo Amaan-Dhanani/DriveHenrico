@@ -9,6 +9,7 @@ from utils import _cv_websocket_auth, websocket_auth
 from utils.console import console
 from utils.ctx import WebsocketAuthContext, WebsocketMessageContext
 from utils.exception.websocket import WebsocketException
+from utils.abc import Session
 
 # === Type Hinting ===
 from typing import Any, Awaitable, Callable, List, Optional
@@ -17,6 +18,7 @@ from dataclasses import dataclass
 # === Errors ===
 import json
 from json.decoder import JSONDecodeError
+from utils.exception.websocket import WebsocketException
 
 _SENTINEL = object()
 
@@ -33,6 +35,8 @@ class Listener:
     key: str
     value: Any = _SENTINEL
     callback: Callable[..., Any]
+    auth_required: bool
+    ignore_auth: bool
 
 
 class Websocket:
@@ -43,6 +47,7 @@ class Websocket:
 
     def __init__(self) -> None:
         self.listeners: List[Listener] = []
+        self.global_auth: bool = False
 
     @staticmethod
     def looper(func: Callable[..., Awaitable[Any]]):
@@ -93,6 +98,12 @@ class Websocket:
             ))       
 
             try:
+                
+                # Fail if authentication is at all required
+                if not listener.ignore_auth:                    
+                    if (self.global_auth or listener.auth_required) and not websocket_auth.authenticated:
+                        raise WebsocketException(operation="auth:failed", message="Authentication is required", data={"on": websocket_message.operation})
+
                 callback_response = await listener.callback()
                 
                 # If callback_response is a tuple, overwrite operation and data
@@ -135,11 +146,16 @@ class Websocket:
         """
 
         async def decorator(*args, **kwargs):
+            
+            _cv_websocket_auth.set(WebsocketAuthContext(
+                None, self.global_auth
+            ))
+            
             await asyncio.gather(self.__reader(), func(*args, **kwargs))
             return
         return decorator
 
-    def on(self, key: str, value: Optional[Any] = _SENTINEL, *, callback: Callable):
+    def on(self, key: str, value: Optional[Any] = _SENTINEL, *, callback: Callable, auth_required: bool = False, ignore_auth: bool = False):
         """
         Registers a websocket listener for the websocket request. Only reads valid json messages.
 
@@ -151,7 +167,7 @@ class Websocket:
         """
 
         # Register the listener
-        self.listeners.append(Listener(key=key, value=value, callback=callback))
+        self.listeners.append(Listener(key=key, value=value, callback=callback, auth_required=auth_required, ignore_auth=ignore_auth))
 
         def wrapper(func: Callable):
             async def decorator(*args, **kwargs):
