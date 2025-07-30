@@ -40,6 +40,9 @@ async def verify(*args, **kwargs):
             raise WebsocketException(operation="session:rejected", message="Attempt not ok")  
 
         challenge.delete()
+        
+        if not user.verified:
+            user.update({"id": user.id}, "$set", {"verified": True})
     
     session = Session.from_user(user).insert()
         
