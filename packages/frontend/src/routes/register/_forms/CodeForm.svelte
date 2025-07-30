@@ -11,7 +11,8 @@
 	import { getRegisterCtx } from '../ctx.svelte';
 	import { getStepsCtx } from '@components/steps/ctx.svelte';
 	let { _helpers } = getStepsCtx();
-	const { _state, _challenge_state, _session_initiate_state } = getRegisterCtx();
+
+  const { _state, _challenge_state, _session_initiate_state } = getRegisterCtx();
 
 	onMount(() => {
 		const { email, password, account_type, name } = _helpers.mergeSteps(
