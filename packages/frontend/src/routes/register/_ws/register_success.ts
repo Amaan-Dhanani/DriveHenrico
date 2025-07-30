@@ -2,7 +2,7 @@ import type { WebsocketError } from '@lib/types';
 import { getRegisterCtx } from '../ctx.svelte';
 
 type PostResponseType = {
-	verification_id?: string;
+	challenge_id?: string;
 };
 
 export async function register_success(

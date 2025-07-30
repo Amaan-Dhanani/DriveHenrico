@@ -11,7 +11,11 @@
 	import { getLoginCtx } from '../ctx.svelte';
 	import { getStepsCtx } from '@components/steps/ctx.svelte';
 	let { _helpers } = getStepsCtx();
+<<<<<<< Updated upstream:packages/frontend/src/routes/register2/_forms/CodeForm.svelte
 	const { _state, _verification_state, _session_initiate_state } = getLoginCtx();
+=======
+	const { _state, _challenge_state } = getLoginCtx();
+>>>>>>> Stashed changes:packages/frontend/src/routes/login/_forms/CodeForm.svelte
 
 	onMount(() => {
 		const { email, password } = _helpers.mergeSteps(
@@ -31,11 +35,17 @@
 		const { code } = _helpers.mergeSteps('code');
 
 		if (!code) throw new Error('Missing code');
-		if (!_verification_state.id) throw new Error('Missing Verification');
+		if (!_challenge_state.id) throw new Error('Missing Challenge');
 
+<<<<<<< Updated upstream:packages/frontend/src/routes/register2/_forms/CodeForm.svelte
 		_state.session_ws?.send('session:verify', {
 			challenge_id: _verification_state.id,
 			value: code
+=======
+		_state.ws?.send('auth:login:confirm_code', {
+			id: _challenge_state.id,
+			code
+>>>>>>> Stashed changes:packages/frontend/src/routes/login/_forms/CodeForm.svelte
 		});
 	}
 </script>
