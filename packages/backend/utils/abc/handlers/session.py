@@ -3,6 +3,7 @@ from pydantic import Field
 from secrets import token_hex
 from utils.abc.handlers.base import WrapperModel
 from utils.abc.handlers.user import User
+from utils.console import console
 
 # === Database ===
 from pymongo.collection import Collection
@@ -30,3 +31,16 @@ class Session(WrapperModel):
         return cls(
             account_id=user.id
         )
+        
+    @property
+    def user(self) -> User | None:
+        """
+        Attempts to get the user attached to this session
+        
+        :returns User | None: User if its found, otherwise None
+        """
+        try:
+            return User.get(id=self.account_id)
+        except Exception as e:
+            console.debug(f"Session.user Failed {e}")
+            return None
