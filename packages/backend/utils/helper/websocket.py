@@ -159,3 +159,79 @@ class Websocket:
                 return await func(*args, **kwargs)
             return decorator
         return wrapper
+    
+    def auth(self, _func: Optional[Callable] = None, global_auth: bool = False):
+        """
+        Decorator used to enforce authentication 
+        before any request is made. When this decorator is present on an endpoint
+        
+        :param Optional[Callable] _func: Decorated function (None)
+        :param bool global_auth: if all callbacks are defaulted to require authentication (False)
+
+        Usage
+        -----
+        ```python
+        
+        from utils import websocket_auth
+        
+        # Authentication not guaranteed
+        def foo(*_, **__):
+            websocket_auth.user # Either User or None
+        
+        # Authentication Required
+        def buz(*_, *__):
+            websocket_auth.user # Always User
+            
+        @_ws.init
+        @_ws.auth
+        @_ws.on("operation", value="some:operation", callback=foo)
+        @_ws.on("operation", value="other:operation", callback=buz, auth_required=True)
+        async def bar(*_, *__):
+            pass            
+        ```
+        """
+
+        @dataclass
+        class D_AuthToken:
+            token: str
+
+        async def _auth_token(*_, **__):
+            """
+            Sets up the authentication context
+            
+            :param str token: User token
+            
+            :raises WebsocketException: If the token is invalid
+            """
+            data: D_AuthToken = websocket_message.cast_data(D_AuthToken)
+
+            try:
+                session = Session.get(id=data.token)
+            except LookupError:
+                raise WebsocketException(operation="auth:failed", message="Invalid Token")
+
+            user = session.user
+            if not user:
+                raise WebsocketException(operation="auth:failed", message="User doesn't exist (this shouldn't happen)")
+
+            _cv_websocket_auth.set(WebsocketAuthContext(
+                user, global_auth
+            ))
+            
+            return "auth:success", None
+
+        # Register auth:token listener
+        self.on("operation", value="auth:token", callback=_auth_token, ignore_auth=True)
+        
+        self.global_auth = True if global_auth else self.global_auth
+
+        def wrapper(func: Callable):
+            async def decorator(*args, **kwargs):
+                # Continue to run the decorated function
+                return await func(*args, **kwargs)
+            return decorator
+
+        if callable(_func):
+            return wrapper(_func)
+
+        return wrapper
