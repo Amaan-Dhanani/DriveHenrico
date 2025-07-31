@@ -47,6 +47,14 @@ class Class(WrapperModel):
         """
         self.student_ids.append(user_id)
         self.update({"id": self.id}, "$addToSet", {"student_ids": user_id})
+        
+    def refresh_invite_code(self) -> None:
+        """
+        Updates the current invite_code
+        """
+        
+        self.invite_code = self.generate_code()
+        self.update({"id": self.id}, "$set", {"invite_code": self.invite_code})
 
     @classmethod
     def from_user(cls, user: User, name: str) -> Self:
