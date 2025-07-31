@@ -22,13 +22,17 @@ class Class(WrapperModel):
     
     teacher_id: str
     student_ids: List[str] = []
-    invite_code: Optional[str] = Field(default_factory=lambda: "".join(random.choices(string.ascii_uppercase+string.digits, k=6)))
+    invite_code: Optional[str] = Field(default_factory=lambda: Class.generate_code())
     
     created_at: Optional[int] = Field(default_factory=lambda: now())
     updated_at: Optional[int] = Field(default_factory=lambda: now())
     
     __collection__: ClassVar[Collection] = MongoClient.classes
     id: str = Field(default_factory=lambda: token_hex(32))
+    
+    @classmethod
+    def generate_code(cls) -> str:
+        return "".join(random.choices(string.ascii_uppercase+string.digits, k=6))
     
     def has_user(self, user_id: str) -> bool:
         """
