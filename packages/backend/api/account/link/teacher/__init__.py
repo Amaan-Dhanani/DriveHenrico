@@ -1,1 +1,2 @@
 from ._teacher_create_class import teacher_create_class
+from ._teacher_regenerate_code import teacher_regenerate_code

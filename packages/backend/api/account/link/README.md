@@ -33,6 +33,24 @@ sequenceDiagram
 
         Note left of Server: class_id:str
 
+    else teacher:regenerate_code
+        Client -->> Server: teacher:regenerate_class_code
+        Note right of Client: class_id:str
+    
+        break user.is_not_teacher
+            Server -->> Client: regenerate:rejected
+        end 
+    
+        break class.does_not_exist
+            Server -->> Client: regenerate:rejected
+        end
+    
+        Server -->> Database: Update class code
+    
+        Server -->> Client: regenerate:success
+    
+        Note left of Server: class_code:str
+
     else student:link_class
         Client -->> Server: student:link_class
         Note right of Client: class_code:str
