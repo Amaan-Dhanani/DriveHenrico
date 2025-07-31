@@ -29,6 +29,20 @@ class Class(WrapperModel):
     
     __collection__: ClassVar[Collection] = MongoClient.classes
     id: str = Field(default_factory=lambda: token_hex(32))
+    
+    def has_user(self, user_id: str) -> bool:
+        """
+        Checks if a user is already part of this class
+        :returns bool: True if the user is part, else false 
+        """
+        return user_id in self.student_ids
+    
+    def add_user(self, user_id: str):
+        """
+        Adds a user to self.student_ids and updates the document within the database
+        """
+        self.student_ids.append(user_id)
+        self.update({"id": self.id}, "$addToSet", {"student_ids": user_id})
 
     @classmethod
     def after_create(cls, instance: "Class") -> "Class":
