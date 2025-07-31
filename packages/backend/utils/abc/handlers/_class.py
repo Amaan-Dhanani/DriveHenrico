@@ -22,7 +22,7 @@ class Class(WrapperModel):
     
     teacher_id: str
     student_ids: List[str] = []
-    invite_code: Optional[str] = None
+    invite_code: Optional[str] = Field(default_factory=lambda: "".join(random.choices(string.ascii_uppercase+string.digits, k=6)))
     
     created_at: Optional[int] = Field(default_factory=lambda: now())
     updated_at: Optional[int] = Field(default_factory=lambda: now())
@@ -44,17 +44,6 @@ class Class(WrapperModel):
         self.student_ids.append(user_id)
         self.update({"id": self.id}, "$addToSet", {"student_ids": user_id})
 
-    @classmethod
-    def after_create(cls, instance: "Class") -> "Class":
-        """
-        Post-creation hook that updates the invite_code if its not given
-        """
-        
-        if instance.invite_code is None:
-            instance.invite_code = "".join(random.choices(string.ascii_uppercase+string.digits, k=6))
-        
-        return instance
-    
     @classmethod
     def from_user(cls, user: User, name: str) -> Self:
         """
