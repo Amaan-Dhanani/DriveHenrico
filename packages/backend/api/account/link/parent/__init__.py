@@ -1,1 +1,2 @@
 from ._parent_create_invite import parent_create_invite
+from ._parent_revoke_invite import parent_revoke_invite
