@@ -5,6 +5,7 @@ from utils.helper.websocket import Websocket
 # === Listeners ===
 from .teacher import teacher_create_class, teacher_regenerate_code
 from .student import student_link_class
+from .parent import parent_create_invite
 
 blueprint = app.Blueprint("api(account):@link", __name__)
 _ws = Websocket()
@@ -15,5 +16,6 @@ _ws = Websocket()
 @_ws.on("operation", value="teacher:create_class", callback=teacher_create_class)
 @_ws.on("operation", value="teacher:regenerate_code", callback=teacher_regenerate_code)
 @_ws.on("operation", value="student:link_class", callback=student_link_class)
+@_ws.on("operation", value="parent:create_invite", callback=parent_create_invite)
 async def account_link(*_, **__):
     pass
