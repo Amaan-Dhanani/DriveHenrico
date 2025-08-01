@@ -6,7 +6,6 @@ from pydantic import Field
 from secrets import token_hex
 
 # === Utils ===
-from packages.backend.api.account.link.student._student_link_class import D
 from utils.helper.time import now, future
 from utils.abc.handlers.user import User
 from utils.abc.handlers.base import WrapperModel
