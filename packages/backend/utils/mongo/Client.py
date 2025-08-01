@@ -21,3 +21,4 @@ class MongoClient:
     verification: pymongo.collection.Collection = database["verification"]
     challenge: pymongo.collection.Collection = database["challenge"]
     classes: pymongo.collection.Collection = database["classes"]
+    invites: pymongo.collection.Collection = database["invites"]
