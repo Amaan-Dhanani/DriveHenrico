@@ -71,5 +71,25 @@ sequenceDiagram
 
         Server -->> Client: link:established
 
+    else student:link_parent
+        Client -->> Server: student:link_parent
+        Note right of Client: invite_code:str
+    
+        break user.is_not_student
+            Server -->> Client: link:rejected
+        end 
+    
+        break invite.does_not_exist
+            Server -->> Client: link:rejected
+        end
+    
+        break user.already_has_parent
+            Server -->> Client: link:rejected
+        end
+    
+        Server -->> Database: Update parent_id in user
+    
+        Server -->> Client: link:established
+
     end
 ```
