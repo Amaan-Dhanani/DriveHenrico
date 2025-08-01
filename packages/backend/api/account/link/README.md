@@ -91,5 +91,32 @@ sequenceDiagram
     
         Server -->> Client: link:established
 
+    else student:unlink
+        Client -->> Server: student:unlink
+        Note right of Client: type:Literal["parent", "class"]
+    
+        break type.not_valid
+            Server -->> Client: unlink:rejected
+        end 
+    
+        
+        alt Class Chosen
+    
+            break class.does_not_exist
+                Server -->> Client: unlink:rejected
+            end
+    
+            Server -->> Database: Set class_id of user to None
+        else Parent Chosen
+    
+            break parent.does_not_exist
+                Server -->> Client: unlink:rejected
+            end
+    
+            Server -->> Database: Set parent_id of user to None
+        end
+    
+        Server -->> Client: unlink:successful
+
     end
 ```
