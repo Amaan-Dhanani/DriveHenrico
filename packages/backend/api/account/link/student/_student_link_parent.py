@@ -42,15 +42,17 @@ async def student_link_parent(*_, **__):
         raise WebsocketException(operation="link:rejected", message="You are not a student")
 
     if user.parent_id is not None:
-        raise WebsocketException(operation="", message="")
+        raise WebsocketException(operation="link:rejected", message="You're already linked to a parent")
 
     try:
         invite = Invite.get(code=data.invite_code)
     except LookupError:
-        raise WebsocketException(operation="", message="")
+        raise WebsocketException(operation="link:rejected", message="Invite doesn't exist")
 
     if invite.parent is None:
-        raise WebsocketException(operation="", message="")
+        raise WebsocketException(operation="link:rejected", message="Parent of invite doesn't exist")
 
     if user.id in (invite.parent.class_ids or []):
-        raise WebsocketException(operation="", message="")
+        raise WebsocketException(operation="link:rejected", message="You're already linked to this parent")
+    
+    return "link:established", {}
