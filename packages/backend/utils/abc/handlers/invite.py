@@ -8,6 +8,7 @@ from secrets import token_hex
 # === Utils ===
 from utils.helper.time import now, future
 from utils.abc.handlers.user import User
+from utils.abc.handlers._class import Class
 from utils.abc.handlers.base import WrapperModel
 
 
@@ -26,27 +27,32 @@ class Invite(WrapperModel):
     created_at: int = Field(default_factory=lambda: now())
     expires_at: int
     
-    target_parent_id: Optional[str] = None
+    target_id: Optional[str] = None
     
     __collection__: ClassVar[Collection] = MongoClient.invites
     id: str = Field(default_factory=lambda: token_hex(32))
     
     @property
-    def parent(self) -> User | None:
+    def target(self) -> User | None:
         """
-        Attempts to get the parent attached to this session
+        Attempts to get the target attached to this session
         
-        :returns User | None: If the user is found, otherwise None
+        :returns User | Class | None: If the user or class is found, otherwise None
         """
-        
-        if self.target_parent_id is None:
+
+        if self.target_id is None:
             return None
-        
+
+        if self.type not in ["class", "parent"]:
+            return None
+
+        lookup = Class if self.type == "class" else User
+
         try:
-            return User.get(id=self.target_parent_id)
+            return lookup.get(id=self.target_id)
         except LookupError as e:
             return None
-    
+
     @classmethod
     def generate_code(cls) -> str:
         return "".join(random.choices(string.ascii_uppercase+string.digits, k=6))
