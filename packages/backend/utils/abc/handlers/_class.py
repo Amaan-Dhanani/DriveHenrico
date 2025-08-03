@@ -34,14 +34,14 @@ class Class(WrapperModel):
     def generate_code(cls) -> str:
         return "".join(random.choices(string.ascii_uppercase+string.digits, k=6))
     
-    def has_user(self, user_id: str) -> bool:
+    def has_student(self, user_id: str) -> bool:
         """
         Checks if a user is already part of this class
         :returns bool: True if the user is part, else false 
         """
         return user_id in self.student_ids
     
-    def add_user(self, user_id: str):
+    def add_student(self, user_id: str):
         """
         Adds a user to self.student_ids and updates the document within the database
         """
