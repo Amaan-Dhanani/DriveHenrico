@@ -1,3 +1,2 @@
-from ._student_link_class import student_link_class
-from ._student_link_parent import student_link_parent
+from ._student_link import student_link
 from ._student_unlink import student_unlink
