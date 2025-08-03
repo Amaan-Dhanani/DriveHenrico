@@ -130,7 +130,8 @@ class WrapperModel(BaseModel):
     
     
     # === Modification ===
-    def update(self, filter: dict[str, Any] = None, operation: str, update: dict[str, Any]) -> UpdateResult:
+
+    def update(self, filter: dict[str, Any] = None, operation: str = "", update: dict[str, Any] = {}) -> UpdateResult:
         """
         Updates a document in the given collection using the specified operation and filter
 
