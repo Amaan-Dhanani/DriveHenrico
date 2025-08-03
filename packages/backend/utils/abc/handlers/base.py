@@ -1,4 +1,5 @@
 from typing import Any, ClassVar, Self
+from attr import has
 from pydantic import BaseModel
 from pymongo.collection import Collection
 from pymongo.results import UpdateResult, InsertOneResult
@@ -129,7 +130,7 @@ class WrapperModel(BaseModel):
     
     
     # === Modification ===
-    def update(self, filter: dict[str, Any], operation: str, update: dict[str, Any]) -> UpdateResult:
+    def update(self, filter: dict[str, Any] = None, operation: str, update: dict[str, Any]) -> UpdateResult:
         """
         Updates a document in the given collection using the specified operation and filter
 
@@ -138,6 +139,22 @@ class WrapperModel(BaseModel):
         :param dict[str, Any] update: Fields and values to apply with the specified operation
         :returns pymongo.results.UpdateResult: Result object containing matched and modified counts
         """
+        
+        if filter is None:
+            filtered_id = getattr(self, "id", None) or getattr(self, "_id", None) or None
+            key: bool = "id"
+            value = None
+            
+            if hasattr(self, "id"):
+                value = getattr(self, "id")
+            elif hasattr(self, "_id"):
+                value=getattr(self, "_id")
+                key="_id"            
+                
+            if not value:
+                raise ValueError("No filter was specified and no conclusions could be drawn")
+            
+            filter = {key: value}
                 
         return self.__collection__.update_one(filter, {operation: update})
     
