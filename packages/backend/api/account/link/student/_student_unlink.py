@@ -46,9 +46,11 @@ async def student_unlink(*_, **__):
     if data.type == "class":
         if user.class_id is None:
             raise WebsocketException(operation="unlink:rejected", message="No class to unlink")
+        user.update(None, "$set", {"class_id": None})
     
     if data.type == "parent":
         if user.parent_id is None:
             raise WebsocketException(operation="unlink:rejected", message="No parent to link")
-    
+        user.update(None, "$set", {"parent_id": None})
+        
     return "unlink:successful", {}
