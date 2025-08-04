@@ -42,4 +42,4 @@ def teacher_regenerate_code(*_, **__):
     
     _class.refresh_invite_code()
     
-    return "link:established", {"class_code": _class.invite_code}
+    return "regenerate:success", {"class_code": _class.invite_code}
