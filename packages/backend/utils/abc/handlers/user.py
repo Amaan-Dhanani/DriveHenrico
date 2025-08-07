@@ -80,7 +80,7 @@ class User(WrapperModel):
         if datetime.now(timezone.utc) < datetime.fromtimestamp(self.ttl):
             return True
 
-        return True
+        return False
     
     @property
     def is_teacher(self) -> bool:
